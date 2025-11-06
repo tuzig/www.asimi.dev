@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ .Site.Title }}</title>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0b1120;
+      color: #e2e8f0;
+      font-family: "Fira Code", "Source Code Pro", "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    main {
+      padding: 3rem 1.5rem;
+      max-width: 960px;
+    }
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    h2,h3 {
+      text-align: center;
+    }
+    pre {
+      margin: 0;
+      padding: 2rem;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: 12px;
+      box-shadow: 0 30px 60px -35px rgba(15, 118, 110, 0.6);
+      overflow-x: auto;
+      font-size: 0.95rem;
+      line-height: 1.45;
+      letter-spacing: 0.02em;
+    }
+    a {
+      color: #38bdf8;
+      text-decoration: none;
+      border-bottom: 1px dotted rgba(56, 189, 248, 0.65);
+    }
+    a:hover,
+    a:focus {
+      color: #f472b6;
+      border-bottom-color: rgba(244, 114, 182, 0.8);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>{{ .Site.Title }}</h1>
+    <h3>Harmonizing devs, agents and work issues</h3>
+    <pre>
+                      /---------------------------------------\
+                      |      The Holistic Development         |
+                      |                     Environment       |
++---------------------+---------------------------------------+
+| 5.  Immersive &     |                                       |
+|     Networked       |  Mobile App, Code Conferencing,       |
+|     User            |  3D Assembly Line, <a href="https://github.com/tuzig/asimi-cli" target="_blank" rel="noopener">Asimi CLI</a>,         |
+|     Interfaces      |  IDE plugins                          |
+|                     |                                       |
++---------------------+---------------------------------------+
+| 4. API &            |  REST & WeBRTC API                    |
+|    Orchestration    +  - - - - - - - - - - - - - - - - - - -+
+|                     |  Guardrails, Subagents and LLMs Router|
+|                     |                                       |
++---------------------+---------------------------------------+
+| 3. Harness          |                                       |
+|    & Toolchest      |  custom tools, go-git, podman go,     |
+|                     |  Kanban                               |
++---------------------+---------------------------------------+
+| 2. Core             |                                       |
+|                     |  Host OS, Container mgmt,             |
+|                     |  Local/Remote Model, System Tools     |
++---------------------+---------------------------------------+
+| 1. Metal            |                                       |
+|                     |  CPU, GPU, RAM, Storage               |
+|                     |                                       |
++---------------------+---------------------------------------+
+                      \_______________________________________/
+    </pre>
+  </main>
+</body>
+</html>
