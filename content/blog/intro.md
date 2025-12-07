@@ -1,6 +1,6 @@
 +++
 title = 'Introducing Asimi'
-date = 2025-12-06T10:41:42+02:00
+date = 2025-12-07T12:41:42+02:00
 draft = false
 +++
 
@@ -49,14 +49,16 @@ the prototypes. It's the only way for the devs to get the experience they deserv
 ## What's in 0.2.1?
 
 Asimi has been eating its own dog food since version 0.1.0, well over a month now, and it rarely breaks. 
+I use my Claude Pro/Max license and openrouter account as a fallback. 
+I've tested Asimi with Kimi, Qwen3, GPT-5.1 and more and while they work for heavy work I rely Anthropic top end models.
+
 I managed to squeeze in quite a bit for the first public release.
+The vi interface is in with six modes: Insert, Normal and Command are vim compatible. 
+No more `/`, just good old `:` and your fingers stay on the home row where they belong.
+We also added a Scroll mode - Just hit CTRL-B and forget the mouse. For selecting sessions and models we added
+a Select mode. Lastly, we've added Help, in case you get stuck.
 
-The vi interface is there with six modes: Insert for typing prompts, Normal for navigation,
-Command for the colon commands, Scroll for CTRL-B/F paging, Select for picking sessions and models and Help.
-Your fingers stay on the home row where they belong.
-
-The sandbox is working beautifully 🪬🪬🪬 Podman runs the agent's shell in its own container, so the model has access only
-to the project's directory.
+The sandbox is working beautifully 🪬🪬🪬 Podman runs the agent's shell in its own container, so the model's blast radius is limited to the mapped project directory.
 The `:init` command sets up a Dockerfile and a Justfile to get you started. And the shell is fast – about 50x faster as it doesn;t spawn a new process.
 
 Multiple providers are supported out of the box. Ollama for local models, Claude Pro/Max for Anthropic fans, and any OpenAI API v1 compatible service like OpenRouter. Switch models, keep your workflow.
