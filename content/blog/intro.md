@@ -58,12 +58,19 @@ No more `/`, just good old `:` and your fingers stay on the home row where they 
 We also added a Scroll mode - Just hit CTRL-B and forget the mouse. For selecting sessions and models we added
 a Select mode. Lastly, we've added Help, in case you get stuck.
 
-The sandbox is working beautifully 🪬🪬🪬 Podman runs the agent's shell in its own container, so the model's blast radius is limited to the mapped project directory.
-The `:init` command sets up a Dockerfile and a Justfile to get you started. And the shell is fast – about 50x faster as it doesn;t spawn a new process.
+The sandbox is working beautifully 🪬🪬🪬 Podman runs the agent's shell in its own container, so the model's blast radius is limited to the mapped project directory. You can use configuration to map additional directories which I used for
+Asimi's langchaingo fork. The config let's you set a list of commands that can only run on the host - like `gh`.
+
+The `:init` command sets up a Dockerfile and a Justfile to get you started. 
+After years of looking for a place for projects' scripts, a Justfile is a blessing.
+Use `just -l` to check the recipes asimi prepare for you and feel free to append your own.
 
 Multiple providers are supported out of the box. Ollama for local models, Claude Pro/Max for Anthropic fans, and any OpenAI API v1 compatible service like OpenRouter. Switch models, keep your workflow.
 
-Session management lets you pick up where you left off with `:resume`, and `:context` shows you exactly how many tokens you're burning. All config lives in `.agents/` using TOML – because config files deserve comments.
+Session management lets you pick up where you left off with `:resume`, and `:context` tries to show you exactly how many tokens you're burning. 
+History is saved in a user's sqlite file in `~/.local/share/asimi/asimi.sqlite`.
+
+All config lives in `.agents/` using TOML.
 
 ## What's on the drawing board?
 

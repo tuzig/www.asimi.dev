@@ -1,4 +1,4 @@
-# Justfile for asimi.dev Hugo site
+PROJECT_NAME := "tuzig-www.asimi.dev"
 
 # List available commands
 default:
@@ -40,6 +40,14 @@ build:
 build-dev:
     hugo
 
+# Run tests (validate site)
+test:
+    hugo --printPathWarnings --printUnusedTemplates
+
+# Lint/check the site
+lint:
+    hugo --printPathWarnings --printUnusedTemplates
+
 # Create new post
 new-post name:
     hugo new content blog/{{name}}.md
@@ -56,19 +64,12 @@ clean:
 check:
     hugo --printPathWarnings --printUnusedTemplates
 
-# Build the development infrastructure
-infrabuild:
-    @mkdir -p infra
-    @podman machine init --disk-size 30 2>/dev/null || true
-    @podman machine start 2>/dev/null || true
-    podman build -t asimi-dev:latest -f .asimi/Dockerfile .
+# Build the sandbox container
+build-sandbox:
+    podman machine init --disk-size 30 >/dev/null 2>&1 || true
+    podman machine start >/dev/null 2>&1 || true
+    podman build -t localhost/asimi-sandbox-{{PROJECT_NAME}}:latest -f .agents/sandbox/Dockerfile .
 
-# Clean up the development infrastructure
-infraclean:
-    # podman machine stop
-    # podman machine rm
-    podman system prune --all --volumes --force
-
-# Run command in container
-shell:
-    podman run -it --rm -v $(pwd):/workspace -w /workspace asimi-dev:latest bash
+# Clean up the sandbox container
+clean-sandbox:
+    podman rmi localhost/asimi-sandbox-{{PROJECT_NAME}}:latest

@@ -17,6 +17,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   
+  <!-- Asciinema Player -->
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/asciinema-player@3.10.0/dist/bundle/asciinema-player.css" />
+  
   <style>
     /* Terminal7 Color Scheme from Asimi */
     :root {
@@ -281,6 +284,15 @@
       font-family: var(--font-mono);
       font-size: 0.9rem;
       line-height: 1.8;
+      background: var(--pane-background);
+    }
+
+    /* Asciinema Player Styling */
+    #demo-player {
+      background: var(--pane-background);
+    }
+
+    #demo-player .asciinema-player {
       background: var(--pane-background);
     }
 
@@ -724,25 +736,7 @@
           <span class="terminal-dot yellow"></span>
           <span class="terminal-dot green"></span>
         </div>
-        <div class="terminal-body">
-          <div class="terminal-line">
-            <span class="terminal-prompt">$</span>
-            <span class="terminal-command">asimi</span>
-          </div>
-          <div class="terminal-output">🦙 Asimi CLI v0.2.0</div>
-          <div class="terminal-line" style="margin-top: 0.5rem;">
-            <span class="terminal-prompt">:</span>
-            <span class="terminal-command">init</span>
-          </div>
-          <div class="terminal-output">✓ Created AGENTS.md</div>
-          <div class="terminal-output">✓ Created Justfile</div>
-          <div class="terminal-output">✓ Sandbox image ready</div>
-          <div class="terminal-line" style="margin-top: 0.5rem;">
-            <span class="terminal-prompt">:</span>
-            <span class="terminal-command">!uname -a</span>
-          </div>
-          <div class="terminal-output">Linux asimi-sandbox 6.5.0 #1 SMP x86_64 GNU/Linux</div>
-        </div>
+        <div id="demo-player"></div>
       </div>
     </div>
   </section>
@@ -947,7 +941,19 @@ chmod +x /usr/local/bin/asimi</code></pre>
     </p>
   </footer>
 
+  <script src="https://unpkg.com/asciinema-player@3.10.0/dist/bundle/asciinema-player.min.js"></script>
   <script>
+    // Initialize asciinema player
+    AsciinemaPlayer.create('/demo.cast', document.getElementById('demo-player'), {
+      theme: 'asciinema',
+      fit: 'width',
+      autoPlay: true,
+      loop: true,
+      speed: 1.5,
+      idleTimeLimit: 2,
+      terminalFontFamily: "'JetBrains Mono', 'Fira Code', monospace"
+    });
+
     // Mobile nav toggle
     document.getElementById('navToggle').addEventListener('click', function() {
       document.getElementById('navLinks').classList.toggle('active');
