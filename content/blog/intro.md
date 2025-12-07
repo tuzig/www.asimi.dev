@@ -30,20 +30,21 @@ CC, codex, gemini-cli, qwen, opencode and the rest are reinventing wheels.
 We just need to stretch the vim interface a bit and get that muscle memory back to work.
 
 Another thorn is CC being unopinionated, making me curate the right 
-opinions in the form of roles, agents and custom commands.
+opinions in the form of roles, skills and custom commands.
 I understand their reason for it – they're an AI company and not
-a devtools one – but that's not what I want. I want a tool that works out of the box,
-and in the case of a complicated tool like a coding agent, it requires strong opinions. 
+a devtools one – but that's not what I need.
+I need a tool that works out of the box and for that it requires strong opinions. 
 
-Here are some more thorns found in most coding agents:
+Here are some more thorns whose pain have been driving me to develop Asimi:
 
 - flickering screen - My eyes are my most important tool
 - Single provider support - Whenever there's a new SOTA release I have to change my tool
 - JSON-based config - Config files need comments and a format that's easy to write
 - popups and modals - This is one complication TUIs can do without
 
-Don't get me wrong, CC still does an amazing job.
-It's just that with time it becomes uglier and I just had to build something better.
+Don't get me wrong, CC still does an amazing job, but it's a prototype.
+As the market evolves, open source, opinionanted, multi-provider agents will replace
+the prototypes. It's the only way for the devs to get the experience they deserve.
 
 ## What's in 0.2.1?
 
