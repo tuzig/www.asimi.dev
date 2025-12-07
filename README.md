@@ -1,71 +1,68 @@
 # asimi.dev
 
-This is the Hugo-based website for asimi.dev.
-
-## Quick Start
-
-```bash
-# Install dependencies
-just bootstrap
-
-# Start development server
-just dev
-
-# Create new post
-just new-post my-first-post
-
-# Build for production
-just build
-```
-
-See `AGENTS.md` for detailed development guide and `just --list` for all available commands.
-
-## Prerequisites
-
-- Hugo (Extended version recommended) - installed via `just bootstrap`
-- [Just](https://github.com/casey/just) task runner (optional but recommended)
+The official website for [Asimi CLI](https://github.com/afittestide/asimi-cli) - a safe, opinionated coding agent for the terminal.
 
 ## Development
 
-### Using Just (recommended)
+This site is built with [Hugo](https://gohugo.io/).
+
+### Prerequisites
+
+- Hugo (extended version recommended)
+
+### Local Development
 
 ```bash
-just dev              # Start dev server with drafts
-just build            # Build production site
-just new-post <name>  # Create new post
-just clean            # Clean build artifacts
+# Start the development server
+hugo server -D
+
+# Build for production
+hugo
 ```
 
-### Using Hugo directly
+### Structure
+
+```
+.
+├── content/
+│   └── blog/           # Blog posts
+├── layouts/
+│   ├── index.html      # Homepage
+│   ├── 404.html        # 404 page
+│   ├── blog/
+│   │   ├── list.html   # Blog listing
+│   │   └── single.html # Blog post
+│   └── _default/
+│       └── single.html # Default single page
+├── static/             # Static assets
+└── hugo.toml           # Hugo configuration
+```
+
+### Adding Blog Posts
+
+Create a new markdown file in `content/blog/`:
 
 ```bash
-hugo server --buildDrafts  # Start dev server
-hugo --minify              # Build production site
+hugo new blog/my-new-post.md
 ```
 
-The dev server will be available at http://localhost:1313/
+Or manually create a file with frontmatter:
 
-## Project Structure
+```markdown
+---
+title: "My Post Title"
+date: 2025-01-15
+description: "A brief description"
+tags: ["tag1", "tag2"]
+---
 
-- `content/` - Markdown content files
-- `layouts/` - HTML templates
-- `static/` - Static assets (images, CSS, JS)
-- `assets/` - Assets processed by Hugo Pipes
-- `themes/` - Hugo themes
-- `hugo.toml` - Site configuration
-
-## Container Development
-
-Build and use the development container:
-
-```bash
-just infrabuild  # Build container image
-just shell       # Run interactive shell in container
+Your content here...
 ```
 
-## Next Steps
+## Deployment
 
-1. Install or create a theme in `themes/`
-2. Add content with `just new-post <name>`
-3. Customize layouts and styling
-4. Configure `hugo.toml` for your needs
+The site is deployed automatically via Netlify when changes are pushed to the main branch.
+
+## License
+
+MIT

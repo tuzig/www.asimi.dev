@@ -42,7 +42,7 @@ build-dev:
 
 # Create new post
 new-post name:
-    hugo new content posts/{{name}}.md
+    hugo new content blog/{{name}}.md
 
 # Create new content
 new section name:

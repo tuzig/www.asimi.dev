@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ .Title }} - {{ .Site.Title }}</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Terminal7 Color Scheme from Asimi */
+    :root {
+      --prompt-border: #F952F9;
+      --chat-border: #F4DB53;
+      --text-color: #01FAFA;
+      --prompt-background: #271D30;
+      --pane-background: #000000;
+      --dark-border: #373702;
+      
+      --bg-primary: #000000;
+      --bg-secondary: #0a0a0a;
+      --bg-card: #271D30;
+      --text-primary: #f1f5f9;
+      --text-secondary: #a0a0a0;
+      --text-muted: #666666;
+      
+      --gradient-hero: linear-gradient(135deg, #F952F9 0%, #01FAFA 100%);
+      
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    nav {
+      padding: 1rem 2rem;
+      background: rgba(0, 0, 0, 0.9);
+      border-bottom: 1px solid var(--dark-border);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: var(--font-mono);
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: var(--gradient-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+
+    main {
+      flex: 1;
+      max-width: 750px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: var(--text-color);
+    }
+
+    footer {
+      padding: 2rem;
+      border-top: 1px solid var(--dark-border);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    footer a {
+      color: var(--prompt-border);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo">asimi</a>
+    </div>
+  </nav>
+
+  <main>
+    <h1>{{ .Title }}</h1>
+    {{ .Content }}
+  </main>
+
+  <footer>
+    <p>Made with 🪾 by the <a href="{{ .Site.Params.github }}">Asimi team</a></p>
+  </footer>
+</body>
+</html>

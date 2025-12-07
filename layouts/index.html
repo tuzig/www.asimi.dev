@@ -3,93 +3,997 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ .Site.Title }}</title>
+  <title>{{ .Site.Title }} - {{ .Site.Params.tagline }}</title>
+  <meta name="description" content="{{ .Site.Params.description }}">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{ .Site.Title }}">
+  <meta property="og:description" content="{{ .Site.Params.description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ .Site.BaseURL }}">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
   <style>
+    /* Terminal7 Color Scheme from Asimi */
     :root {
-      color-scheme: dark;
+      /* Core Terminal7 colors */
+      --prompt-border: #F952F9;      /* Magenta - primary accent */
+      --chat-border: #F4DB53;        /* Yellow - secondary accent */
+      --text-color: #01FAFA;         /* Cyan - text highlight */
+      --warning: #F4DB53;            /* Yellow */
+      --error: #F54545;              /* Red */
+      --prompt-background: #271D30;  /* Dark purple - card background */
+      --pane-background: #000000;    /* Black - main background */
+      --dark-border: #373702;        /* Dark yellow - subtle borders */
+      --text-error: #004444;         /* Dark cyan */
+      
+      /* Derived colors */
+      --bg-primary: #000000;
+      --bg-secondary: #0a0a0a;
+      --bg-card: #271D30;
+      --text-primary: #f1f5f9;
+      --text-secondary: #a0a0a0;
+      --text-muted: #666666;
+      --accent-primary: #01FAFA;     /* Cyan */
+      --accent-secondary: #F952F9;   /* Magenta */
+      --accent-tertiary: #F4DB53;    /* Yellow */
+      --border-color: #373702;
+      --border-highlight: #F952F9;
+      
+      /* Gradients */
+      --gradient-1: linear-gradient(135deg, #F952F9 0%, #01FAFA 50%, #F4DB53 100%);
+      --gradient-hero: linear-gradient(135deg, #F952F9 0%, #01FAFA 100%);
+      --shadow-glow: 0 0 60px rgba(249, 82, 249, 0.2);
+      --shadow-cyan: 0 0 40px rgba(1, 250, 250, 0.15);
+      
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
     }
-    body {
+
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--dark-border);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: var(--font-mono);
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: var(--gradient-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-color);
+    }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #0b1120;
-      color: #e2e8f0;
-      font-family: "Fira Code", "Source Code Pro", "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
     }
-    main {
-      padding: 3rem 1.5rem;
-      max-width: 960px;
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 30%, rgba(249, 82, 249, 0.06) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 70%, rgba(1, 250, 250, 0.06) 0%, transparent 50%);
+      animation: float 20s ease-in-out infinite;
     }
-    h1 {
-      font-size: 1.75rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(-2%, 2%) rotate(1deg); }
+    }
+
+    .hero-content {
+      position: relative;
       text-align: center;
+      max-width: 900px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--dark-border);
+      border-radius: 100px;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
       margin-bottom: 2rem;
+      text-decoration: none;
+      transition: all 0.2s;
     }
-    h2,h3 {
+
+    .hero-badge:hover {
+      border-color: var(--prompt-border);
+      color: var(--prompt-border);
+    }
+
+    .hero-badge span {
+      color: var(--text-color);
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.125rem, 3vw, 1.5rem);
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 3rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.75rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      font-size: 1rem;
+    }
+
+    .btn-primary {
+      background: var(--prompt-border);
+      color: var(--bg-primary);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border: 1px solid var(--dark-border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--prompt-border);
+      color: var(--prompt-border);
+    }
+
+    /* Terminal Demo */
+    .terminal-demo {
+      margin-top: 4rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--prompt-border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow-glow);
+      text-align: left;
+    }
+
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--dark-border);
+    }
+
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .terminal-dot.red { background: var(--error); }
+    .terminal-dot.yellow { background: var(--chat-border); }
+    .terminal-dot.green { background: #27ca40; }
+
+    .terminal-body {
+      padding: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      line-height: 1.8;
+      background: var(--pane-background);
+    }
+
+    .terminal-line {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .terminal-prompt {
+      color: var(--prompt-border);
+    }
+
+    .terminal-command {
+      color: var(--text-primary);
+    }
+
+    .terminal-output {
+      color: var(--text-color);
+      padding-left: 1.5rem;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 6rem 2rem;
+      background: var(--bg-secondary);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .section-subtitle {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--dark-border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--text-color);
+      box-shadow: var(--shadow-cyan);
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--text-color);
+    }
+
+    .feature-description {
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .feature-description ul {
+      margin-top: 0.75rem;
+      padding-left: 1.25rem;
+      list-style: none;
+    }
+
+    .feature-description ul li {
+      position: relative;
+      padding-left: 0.5rem;
+      margin-bottom: 0.4rem;
+      color: var(--text-secondary);
+    }
+
+    .feature-description ul li::before {
+      content: '→';
+      position: absolute;
+      left: -1rem;
+      color: var(--text-color);
+    }
+
+    .feature-description code {
+      font-family: var(--font-mono);
+      background: var(--pane-background);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      font-size: 0.9em;
+      color: var(--chat-border);
+    }
+
+    /* Installation Section */
+    .installation {
+      padding: 6rem 2rem;
+    }
+
+    .install-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .install-tab {
+      padding: 0.75rem 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--dark-border);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .install-tab:hover,
+    .install-tab.active {
+      border-color: var(--prompt-border);
+      color: var(--prompt-border);
+    }
+
+    .install-content {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .install-block {
+      display: none;
+    }
+
+    .install-block.active {
+      display: block;
+    }
+
+    .code-block {
+      background: var(--pane-background);
+      border: 1px solid var(--chat-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      overflow-x: auto;
+      position: relative;
+    }
+
+    .code-block pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .code-block code {
+      color: var(--text-primary);
+    }
+
+    .code-block .comment {
+      color: var(--text-muted);
+    }
+
+    .copy-button {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: var(--bg-card);
+      border: 1px solid var(--dark-border);
+      border-radius: 6px;
+      padding: 0.4rem 0.75rem;
+      color: var(--text-secondary);
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .copy-button:hover {
+      border-color: var(--prompt-border);
+      color: var(--prompt-border);
+    }
+
+    .copy-button.copied {
+      border-color: #27ca40;
+      color: #27ca40;
+    }
+
+    /* Vi Modes Section */
+    .vi-modes {
+      padding: 6rem 2rem;
+      background: var(--bg-secondary);
+    }
+
+    .modes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .mode-card {
+      background: var(--bg-card);
+      border: 1px solid var(--dark-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s;
+    }
+
+    .mode-card:hover {
+      border-color: var(--chat-border);
+    }
+
+    .mode-name {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--chat-border);
+      margin-bottom: 0.5rem;
+    }
+
+    .mode-description {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Blog Section */
+    .blog-section {
+      padding: 6rem 2rem;
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .blog-card {
+      background: var(--bg-card);
+      border: 1px solid var(--dark-border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: block;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--prompt-border);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .blog-card-content {
+      padding: 1.5rem;
+    }
+
+    .blog-date {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .blog-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .blog-excerpt {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .blog-empty {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--text-secondary);
+    }
+
+    .view-all-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: 2rem;
+    }
+
+    .view-all-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    footer {
+      padding: 4rem 2rem;
+      border-top: 1px solid var(--dark-border);
       text-align: center;
     }
-    pre {
-      margin: 0;
-      padding: 2rem;
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(148, 163, 184, 0.25);
-      border-radius: 12px;
-      box-shadow: 0 30px 60px -35px rgba(15, 118, 110, 0.6);
-      overflow-x: auto;
-      font-size: 0.95rem;
-      line-height: 1.45;
-      letter-spacing: 0.02em;
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
     }
-    a {
-      color: #38bdf8;
+
+    .footer-links a {
+      color: var(--text-secondary);
       text-decoration: none;
-      border-bottom: 1px dotted rgba(56, 189, 248, 0.65);
+      transition: color 0.2s;
     }
-    a:hover,
-    a:focus {
-      color: #f472b6;
-      border-bottom-color: rgba(244, 114, 182, 0.8);
+
+    .footer-links a:hover {
+      color: var(--text-color);
+    }
+
+    .footer-copy {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    .footer-copy a {
+      color: var(--prompt-border);
+      text-decoration: none;
+    }
+
+    /* Links */
+    a.accent-link {
+      color: var(--text-color);
+      text-decoration: none;
+      border-bottom: 1px dotted var(--text-color);
+    }
+
+    a.accent-link:hover {
+      color: var(--prompt-border);
+      border-bottom-color: var(--prompt-border);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--bg-secondary);
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+        border-bottom: 1px solid var(--dark-border);
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-toggle {
+        display: block;
+      }
+
+      .hero {
+        padding: 6rem 1.5rem 3rem;
+      }
+
+      .terminal-demo {
+        margin-top: 2rem;
+      }
+
+      .features, .installation, .vi-modes, .blog-section {
+        padding: 4rem 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <main>
-    <h1>{{ .Site.Title }}</h1>
-    <h3>On a quest to harmonizing devs, agents and work issues</h3>
-    <pre>
-                      /---------------------------------------\
-                      |      The Holistic Development         |
-                      |                     Environment       |
-+---------------------+---------------------------------------+
-| 6.  Programmers     |                                       |
-|     & Applications  |  TBD, Mobile App, Code Conferencing,  |
-|                     |  <a href="https://github.com/tuzig/asimi-cli" target="_blank" rel="noopener">Asimi CLI</a>, IDE plugins               |
-+---------------------+---------------------------------------+
-| 5. Orchestration    |                                       |
-|                     |  Guardrails, Subagents & Model Router |
-+---------------------+---------------------------------------+
-| 4. API              |                                       |
-|                     |  REST & WebRTC APIs                   |
-+---------------------+---------------------------------------+
-| 3. Harness          |                                       |
-|    & Toolchest      |  custom tools, go-git, podman go,     |
-|                     |  Kanban                               |
-+---------------------+---------------------------------------+
-| 2. Core             |                                       |
-|                     |  Host OS, Container mgmt, Kanaban     | 
-|                     |  Local/Remote Model                   |
-+---------------------+---------------------------------------+
-| 1. Metal            |                                       |
-|                     |  CPU, GPU, RAM, Storage               |
-|                     |                                       |
-+---------------------+---------------------------------------+
-                      \_______________________________________/
-    </pre>
-  </main>
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo">asimi</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#install">Install</a></li>
+        <li><a href="#vi-modes">Vi Modes</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="{{ .Site.Params.github }}" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <a href="#install" class="hero-badge">
+        Try our Beta
+      </a>
+      <h1>The coding agent <br> for Buddhists</h1>
+      <p class="hero-subtitle">
+        Asimi is an opinionated, multi-model, safe and fast coding agent:
+        Enjoy the new age of agentic coding with the convenience of<br> a ex/vi/vim/neovim inspired interface.
+      </p>
+      <div class="hero-buttons">
+        <a href="#install" class="btn btn-primary">
+          Get Started →
+        </a>
+        <a href="{{ .Site.Params.github }}" class="btn btn-secondary" target="_blank" rel="noopener">
+          View on GitHub
+        </a>
+      </div>
+
+      <div class="terminal-demo">
+        <div class="terminal-header">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot yellow"></span>
+          <span class="terminal-dot green"></span>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-line">
+            <span class="terminal-prompt">$</span>
+            <span class="terminal-command">asimi</span>
+          </div>
+          <div class="terminal-output">🦙 Asimi CLI v0.2.0</div>
+          <div class="terminal-line" style="margin-top: 0.5rem;">
+            <span class="terminal-prompt">:</span>
+            <span class="terminal-command">init</span>
+          </div>
+          <div class="terminal-output">✓ Created AGENTS.md</div>
+          <div class="terminal-output">✓ Created Justfile</div>
+          <div class="terminal-output">✓ Sandbox image ready</div>
+          <div class="terminal-line" style="margin-top: 0.5rem;">
+            <span class="terminal-prompt">:</span>
+            <span class="terminal-command">!uname -a</span>
+          </div>
+          <div class="terminal-output">Linux asimi-sandbox 6.5.0 #1 SMP x86_64 GNU/Linux</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Why Asimi?</h2>
+        <p class="section-subtitle">
+          Because most hard problems are already solved
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🛠️</div>
+          <h3 class="feature-title">DevOps Init</h3>
+          <div class="feature-description">
+            An init command that creates:
+            <ul>
+                <li>A Justfile to hold the project's scripts.</li>
+                <li>A Dockerfile to define the sandbox where the model's shell runs.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎨</div>
+          <h3 class="feature-title">Vi Mimicry</h3>
+          <p class="feature-description">
+            Based on the fittest dev tool ever made. If you know ex/vi/vim/neovim, you already know Asimi.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🏝️</div>
+          <h3 class="feature-title">Podman Sandboxes</h3>
+          <p class="feature-description">
+            Agent's shell runs in its own container. Your host system stays protected while the models works freely.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🦙</div>
+          <h3 class="feature-title">Multiple LLM Providers</h3>
+          <p class="feature-description">
+            Support for Ollama, Claude Pro/Max, and OpenAI API v1 compatible services. Use your preferred model.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3 class="feature-title">30x+ Faster Shell</h3>
+          <p class="feature-description">
+            Asimi's containerized consistent shell uses subshells to isolate commands.
+            This minimizes overhead and save on slow exec times.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🧹</div>
+          <h3 class="feature-title">Less Clutter</h3>
+          <p class="feature-description">
+            All special files live under the <code>.agents</code> directory. TOML-based config keeps it clean and documented.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Installation Section -->
+  <section class="installation" id="install">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Quick Start</h2>
+        <p class="section-subtitle">
+          Get up and running in minutes. Requires <a href="https://podman.io/docs/installation" target="_blank" rel="noopener" class="accent-link">Podman</a> and <a href="https://just.systems/man/en/packages.html" target="_blank" rel="noopener" class="accent-link">Just</a>.
+        </p>
+      </div>
+
+      <div class="install-tabs">
+        <button class="install-tab active" data-tab="brew">Homebrew</button>
+        <button class="install-tab" data-tab="go">Go</button>
+        <button class="install-tab" data-tab="binary">Binary</button>
+      </div>
+
+      <div class="install-content">
+        <div class="install-block active" id="tab-brew">
+          <div class="code-block">
+            <button class="copy-button" data-copy="brew tap afittestide/tap&#10;brew install asimi">Copy</button>
+            <pre><code><span class="comment"># Add the tap and install</span>
+brew tap afittestide/tap
+brew install asimi</code></pre>
+          </div>
+        </div>
+
+        <div class="install-block" id="tab-go">
+          <div class="code-block">
+            <button class="copy-button" data-copy="go install github.com/afittestide/asimi@latest">Copy</button>
+            <pre><code><span class="comment"># Install with Go 1.25+</span>
+go install github.com/afittestide/asimi@latest</code></pre>
+          </div>
+        </div>
+
+        <div class="install-block" id="tab-binary">
+          <div class="code-block">
+            <button class="copy-button" data-copy="cp asimi /usr/local/bin/&#10;chmod +x /usr/local/bin/asimi">Copy</button>
+            <pre><code><span class="comment"># Download from releases</span>
+<a href="https://github.com/afittestide/asimi-cli/releases/latest" target="_blank" rel="noopener" class="accent-link">github.com/afittestide/asimi-cli/releases/latest</a>
+
+<span class="comment"># Copy to your bin directory</span>
+cp asimi /usr/local/bin/
+chmod +x /usr/local/bin/asimi</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vi Modes Section -->
+  <section class="vi-modes" id="vi-modes">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Vi-Style Interface</h2>
+        <p class="section-subtitle">
+          Keep your fingers on the middle row using the good old modes:
+        </p>
+      </div>
+      <div class="modes-grid">
+        <div class="mode-card">
+          <div class="mode-name">Insert Mode</div>
+          <p class="mode-description">Type your prompts naturally. Just like editing text in vi.</p>
+        </div>
+        <div class="mode-card">
+          <div class="mode-name">Normal Mode</div>
+          <p class="mode-description">Navigate and edit your prompt with familiar keybindings.</p>
+        </div>
+        <div class="mode-card">
+          <div class="mode-name">Scroll Mode</div>
+          <p class="mode-description">Never touch that rodent. Press Ctrl-B to enter, then scroll through output with your keys.</p>
+        </div>
+        <div class="mode-card">
+          <div class="mode-name">Command Mode</div>
+          <p class="mode-description">Type `:` to enter asimi commands and `:!` for shell commands in the sandbox</p>
+        </div>
+        <div class="mode-card">
+          <div class="mode-name">Select Mode</div>
+          <p class="mode-description">Choose sessions to resume, models to connect, and more.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Section -->
+  <section class="blog-section" id="blog">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">From the Blog</h2>
+        <p class="section-subtitle">
+          Updates, tutorials, and insights from the Asimi team
+        </p>
+      </div>
+
+      {{ $posts := where .Site.RegularPages "Section" "blog" }}
+      {{ if $posts }}
+      <div class="blog-grid">
+        {{ range first 3 $posts }}
+        <a href="{{ .Permalink }}" class="blog-card">
+          <div class="blog-card-content">
+            <div class="blog-date">{{ .Date.Format "January 2, 2006" }}</div>
+            <h3 class="blog-title">{{ .Title }}</h3>
+            <p class="blog-excerpt">{{ .Summary | truncate 120 }}</p>
+          </div>
+        </a>
+        {{ end }}
+      </div>
+      {{ if gt (len $posts) 3 }}
+      <div style="text-align: center;">
+        <a href="/blog/" class="view-all-link">View all posts →</a>
+      </div>
+      {{ end }}
+      {{ else }}
+      <div class="blog-empty">
+        <p>Blog posts coming soon! Stay tuned for updates, tutorials, and more.</p>
+      </div>
+      {{ end }}
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="{{ .Site.Params.github }}" target="_blank" rel="noopener">GitHub</a>
+      <a href="{{ .Site.Params.github }}/issues" target="_blank" rel="noopener">Issues</a>
+      <a href="{{ .Site.Params.github }}/releases" target="_blank" rel="noopener">Releases</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <p class="footer-copy">
+      Made with 🪾 by the <a href="{{ .Site.Params.github }}">Asimi team</a><br>
+      Safe, fun, and high-quality code generation
+    </p>
+  </footer>
+
+  <script>
+    // Mobile nav toggle
+    document.getElementById('navToggle').addEventListener('click', function() {
+      document.getElementById('navLinks').classList.toggle('active');
+    });
+
+    // Install tabs
+    document.querySelectorAll('.install-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.install-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.install-block').forEach(b => b.classList.remove('active'));
+        
+        this.classList.add('active');
+        document.getElementById('tab-' + this.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Close mobile nav
+          document.getElementById('navLinks').classList.remove('active');
+        }
+      });
+    });
+
+    // Copy button functionality
+    document.querySelectorAll('.copy-button').forEach(button => {
+      button.addEventListener('click', async function() {
+        const textToCopy = this.dataset.copy;
+        try {
+          await navigator.clipboard.writeText(textToCopy);
+          this.textContent = 'Copied!';
+          this.classList.add('copied');
+          setTimeout(() => {
+            this.textContent = 'Copy';
+            this.classList.remove('copied');
+          }, 2000);
+        } catch (err) {
+          console.error('Failed to copy:', err);
+        }
+      });
+    });
+  </script>
 </body>
 </html>

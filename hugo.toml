@@ -1,3 +1,24 @@
 baseURL = 'https://asimi.dev/'
 languageCode = 'en-us'
-title = 'asimi.dev'
+title = 'Asimi CLI'
+description = 'A safe, opinionated coding agent for the terminal'
+
+[params]
+  tagline = 'A safe, opinionated coding agent'
+  description = 'Asimi is an opinionated, safe & fast coding agent for the terminal. Run AI-powered coding in containerized sandboxes with vi-style controls.'
+  github = 'https://github.com/afittestide/asimi-cli'
+  
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    style = 'dracula'
+    lineNos = false
+
+[taxonomies]
+  tag = 'tags'
+  category = 'categories'
+
+[permalinks]
+  blog = '/blog/:slug/'
