@@ -814,10 +814,32 @@
       <div class="section-header">
         <h2 class="section-title">Quick Start</h2>
         <p class="section-subtitle">
-          Get up and running in minutes. Requires <a href="https://podman.io/docs/installation" target="_blank" rel="noopener" class="accent-link">Podman</a> and <a href="https://just.systems/man/en/packages.html" target="_blank" rel="noopener" class="accent-link">Just</a>.
+          Get up and running in minutes
         </p>
       </div>
 
+      <!-- System Dependencies -->
+      <div class="install-content" style="margin-bottom: 3rem;">
+        <h3 style="color: var(--text-color); font-size: 1.25rem; margin-bottom: 1rem; text-align: center;">System Dependencies</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1.5rem;">
+          First, install these two great tools:
+        </p>
+        <div class="code-block">
+          <button class="copy-button" data-copy="brew install podman just">Copy</button>
+          <pre><code><span class="comment"># macOS (Homebrew)</span>
+brew install podman just
+
+<span class="comment"># Or install separately:</span>
+<span class="comment"># Podman - like docker but safer</span>
+<a href="https://podman.io/docs/installation" target="_blank" rel="noopener" class="accent-link">podman.io/docs/installation</a>
+
+<span class="comment"># Just - to collect all scripts in a Justfile</span>
+<a href="https://github.com/casey/just" target="_blank" rel="noopener" class="accent-link">github.com/casey/just</a></code></pre>
+        </div>
+      </div>
+
+      <!-- Asimi Installation -->
+      <h3 style="color: var(--text-color); font-size: 1.25rem; margin-bottom: 1rem; text-align: center;">Install Asimi</h3>
       <div class="install-tabs">
         <button class="install-tab active" data-tab="brew">Homebrew</button>
         <button class="install-tab" data-tab="go">Go</button>
