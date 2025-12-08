@@ -2,6 +2,7 @@
 title = 'Introducing Asimi'
 date = 2025-12-07T12:41:42+02:00
 draft = false
+author = 'Benny Daon'
 +++
 
 I'm developing Asimi, a coding agent for the terminal because all the rest fight against 30 years of terminal conventions and DevOps best practices.
