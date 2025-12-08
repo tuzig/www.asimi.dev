@@ -5,93 +5,65 @@ draft = false
 author = 'Benny Daon'
 +++
 
-I'm developing Asimi, a coding agent for the terminal because all the rest fight against 30 years of terminal conventions and DevOps best practices.
+Once upon a time, startups lived in blue or red oceans. Most are still there,
+but the tsunami of LLMs is turning all markets into whitewater rapids. At the
+front of that tsunami sits the developer-tools market, where the pace of change
+is seven times faster than it was two years ago.
 
-Claude Code (CC) and its clones are a wonder. 
-It grew on me and changed the way I program.
-I stopped writing code and I let it code for me.
-After over 40 years, programming changed, no longer writing code but planning, monitoring and reviewing.
+Developers have already udapted and are used to trying new tools and happy to live on
+the edge. In the previous millennium, we'd call the tools we have today *alpha version*: a
+version whose interface wasn’t quite settled. Today we all use alpha versions.
 
-It allows me to work faster than ever before and in some sessions I get 10X velocity.
-But the more I use it the more its thorns are pricking me. 
+And these alphas are ridiculously powerful. There are days when I finish seven
+or eight days’ worth of work in a single day. Days that end with me collapsed
+on the couch, happy that I’ve finally ran out of tokens. There’s no doubt that
+coding agents are on a completely different level from any tools I’ve seen in
+the last thirty years.
 
-The biggest one is the broken permissions and the `--dangerously-skip-permissions` bypass.
-I refuse to follow the herd and hide it with an alias.
-Every time I run CC I type it myself and it takes its toll.
+It completly changed the way I program - it’s been three months since I last
+wrote code myself. I design, supervise, and
+review—but I leave the actual coding to the agent. **Read Only Programming.**
 
-Good tools should never have this option nor the "you only live once" mode.
-It removes all responsibility from the tool developer and which leads to bad practices.
+From Atari BASIC all the way to today’s Python and Go, programming stayed
+fundamentally the same. Not anymore. This is a totally new era, and I find
+myself thinking a lot about how I’ll be programming five years from now. I’m
+pretty sure the agent I’ll use will be open source and model-provider-agnostic. I’m
+also pretty sure it will come with a structured methodology, helping me
+keep things clean and orderly. It’ll likely use a model based on open weights
+that deeply understands my style and my projects.
 
-Another big thorn is the quirky UI.
-Mouse based scrolling? Slash commands? 
-I've been developing in terminal since 1989 and it was and still is CTRL-B/F and the colon.
+Until that rosy future arrives, I had to use the prototypes available today.
+Don’t get me wrong—they’re very powerful. But safe? To get the most out of
+them, I need to run them in "You Only Live Once" mode. Claude Code calls this
+`--dangerously-skip-permissions`. And on top of that, the interface was
+designed by web developers who have never written a vim macro. They reinvented
+an interface instead of adapting one that has served us beautifully for 50
+years.
 
-I've been using the vi/vim/neovim interface for over 30 years and it's all there.
-CC, codex, gemini-cli, qwen, opencode and the rest are reinventing wheels.
-We just need to stretch the vim interface a bit and get that muscle memory back to work.
+I no longer have to suffer as in the last six weeks, I’m using an agent I built
+myself, **Asimi**. I use it mostly to develop itself and it's much better.
+It's written in Go and open source, and currently runs only in the terminal.
+Its `vi` inspired interface lets me use the same
+commands I learned from vi back in the Unix V.2 days. I don’t need a mouse to
+navigate, I use `:` to enter commands and more.
 
-Another thorn is CC being unopinionated, making me curate the right 
-opinions in the form of roles, skills and custom commands.
-I understand their reason for it – they're an AI company and not
-a devtools one – but that's not what I need.
-I need a tool that works out of the box and for that it requires strong opinions. 
+I’m also less worried about host access as Asimi comes with a sandbox.
+With Asimi, the LLM commands run in an isolated OS with no access to the host
+OS. It’s not that I solved the problem—LLM security is an endless process and
+there’s always room to improve.
 
-Here are some more thorns whose pain have been driving me to develop Asimi:
+Besides that, Asimi is *fast*. I’m writing it in Go and using the podman and
+git libraries to avoid spawning processes. In my measurements, Asimi
+adds ~5ms overhead when running a command, compared to roughly 200ms in
+Claude Code.
 
-- flickering screen - My eyes are my most important tool
-- Single provider support - Whenever there's a new SOTA release I have to change my tool
-- JSON-based config - Config files need comments and a format that's easy to write
-- popups and modals - This is one complication TUIs can do without
-
-Don't get me wrong, CC still does an amazing job, but it's a prototype.
-As the market evolves, open source, opinionanted, multi-provider agents will replace
-the prototypes. It's the only way for the devs to get the experience they deserve.
-
-## What's in 0.2.1?
-
-Asimi has been eating its own dog food since version 0.1.0, well over a month now, and it rarely breaks. 
-I use my Claude Pro/Max license and openrouter account as a fallback. 
-I've tested Asimi with Kimi, Qwen3, GPT-5.1 and more and while they work for heavy work I rely Anthropic top end models.
-
-I managed to squeeze in quite a bit for the first public release.
-The vi interface is in with six modes: Insert, Normal and Command are vim compatible. 
-No more `/`, just good old `:` and your fingers stay on the home row where they belong.
-We also added a Scroll mode - Just hit CTRL-B and forget the mouse. For selecting sessions and models we added
-a Select mode. Lastly, we've added Help, in case you get stuck.
-
-The sandbox is working beautifully 🪬🪬🪬 Podman runs the agent's shell in its own container, so the model's blast radius is limited to the mapped project directory. You can use configuration to map additional directories which I used for
-Asimi's langchaingo fork. The config let's you set a list of commands that can only run on the host - like `gh`.
-
-The `:init` command sets up a Dockerfile and a Justfile to get you started. 
-After years of looking for a place for projects' scripts, a Justfile is a blessing.
-Use `just -l` to check the recipes asimi prepare for you and feel free to append your own.
-
-Multiple providers are supported out of the box. Ollama for local models, Claude Pro/Max for Anthropic fans, and any OpenAI API v1 compatible service like OpenRouter. Switch models, keep your workflow.
-
-Session management lets you pick up where you left off with `:resume`, and `:context` tries to show you exactly how many tokens you're burning. 
-History is saved in a user's sqlite file in `~/.local/share/asimi/asimi.sqlite`.
-
-All config lives in `.agents/` using TOML.
-
-## What's on the drawing board?
-
-The thing I most looking for is adding [sub-agents and roles](https://github.com/afittestide/asimi-cli/issues/24).
-It will make Asimi better by splitting the work & responsibility. 
-I've been following the work done by BMAD and other and I'm itching to try my theory.
-
-The thing Asimi most needs is MCP support. 
-With MCPs security is a big challenge and a fundamental design questions.
-If you'd like to help here's the [issue](https://github.com/afittestide/asimi-cli/issues/56).
-
-We've've been spending a lot of cycles  about Asimi's roles and play book 
-Next up is [MCP support](https://github.com/afittestide/asimi-cli/issues/56) for the Model Context Protocol –
-because standards matter.
-Then comes [sub-agents and roles](https://github.com/afittestide/asimi-cli/issues/24) so you can delegate tasks to specialized agents with an orchestrator keeping things sane.
-
-Got ideas? [Join the discussion](https://github.com/afittestide/asimi-cli/discussions) and let's talk.
+Asimi version 0.2.1 can connect to a local LLM, an Anthropic account, and
+OpenRouter. The init command generates a Justfile and a Dockerfile for the
+sandbox.
 
 ## Try it
 
-Ready to try it? Check out the [quick start](/#install). Asimi should work with your ollama, openrouter account or Claude Pro/Max subscription.
+Ready to try it? Check out the [quick start](/#install).
+
 
 
