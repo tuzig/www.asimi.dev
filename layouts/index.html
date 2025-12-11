@@ -559,12 +559,19 @@
       transition: all 0.3s;
       text-decoration: none;
       display: block;
+      color: inherit;
     }
 
     .blog-card:hover {
       transform: translateY(-4px);
       border-color: var(--prompt-border);
       box-shadow: var(--shadow-glow);
+    }
+
+    .blog-card:link,
+    .blog-card:visited {
+      color: inherit;
+      text-decoration: none;
     }
 
     .blog-card-content {
@@ -580,7 +587,7 @@
     .blog-title {
       font-size: 1.25rem;
       font-weight: 600;
-      color: var(--text-primary);
+      color: var(--text-color);
       margin-bottom: 0.75rem;
     }
 
