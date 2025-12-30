@@ -10,9 +10,9 @@ Asimi version 0.4.0 is out and I've got time to post.
 This one comes following a discussion about coding agents in one of the WhatsApp groups.
 People didn't believe me they're that simple.
 
-A "harness" is the collection of tools around an LLM that turns it into an agent that let it actually *do* things rather than just chat.
+A "harness" is the collection of tools the LLM can all. This toolchsest and a simple loop turns the LLM into an agent that let it actually *do* things rather than just chat.
 
-Coders need very few tools.
+It turns out coders need very few tools.
 [Codex](https://github.com/openai/codex), the leanest of the agents, doesn't even have a tool for reading a file.
 Instead it's doing what programmers did in the early 70s, when there were no vi and no display.
 They used teletypewriters — a keyboard and a printer — and `ed` was their only tool.
