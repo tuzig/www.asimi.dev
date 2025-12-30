@@ -1,7 +1,7 @@
 +++
 title = "What's in a coding agent harness?"
-date = 2025-12-29T15:45:20+02:00
-description = "A comparison of tools available in coding agents like Claude-Code, Codex, Gemini, OpenCode, and Asimi"
+date = 2025-12-30T10:45:20+02:00
+description = "A comparison of tools available in coding agents like Claude-Code, Codex, Cursor, Gemini, OpenCode, and Asimi"
 draft = false
 author = 'Benny Daon'
 +++
@@ -19,36 +19,40 @@ They used teletypewriters — a keyboard and a printer — and `ed` was their on
 To print lines they used `1,23p`. Today, ed has been reincarnated as sed, and Codex is using it
 to read files just like Ken Thompson did back in the '70s. This approach saves tokens and keeps the tool interface minimal.
 
-I've used the following prompt to ask [Codex](https://github.com/openai/codex), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [OpenCode](https://github.com/opencode-ai/opencode) and Asimi:
+I've used the following prompt to ask [Codex](https://github.com/openai/codex), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Cursor](https://www.cursor.com/), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [OpenCode](https://github.com/opencode-ai/opencode) and Asimi:
 
-> Please help me better understand the harness of these coding agents we're using. What tools are available to you in this session? 
+> Please help me better understand the harness of the coding agents we're using. What tools are available to you in this session? 
 
 
 ## Summary Comparison Table
 
-| Tool Category | Capability | Claude Code | Codex | Gemini | OpenCode | Asimi |
-|---------------|------------|:-----------:|:-----:|:------:|:--------:|:-----:|
-| **File Ops** | Read File | ✓ | ✓ | ✓ | ✓ | ✓ |
-| | Read Many Files | ✗ | ✗ | ✗ | ✗ | ✓ |
-| | Write File | ✓ | ✓ | ✓ | ✓ | ✓ |
-| | Edit/Replace | ✓ | ✓ (patch) | ✓ | ✓ | ✓ |
-| | List Directory | ✗ | ✗ | ✓ | ✗ | ✓ |
-| | Glob (find files) | ✓ | ✗ | ✓ | ✓ | ✗ |
-| | Grep (search content) | ✓ | ✗ | ✓ | ✓ | ✗ |
-| | Notebook Edit | ✓ | ✗ | ✗ | ✗ | ✗ |
-| **Shell** | Run Commands | ✓ | ✓ | ✓ | ✓ | ✓ |
-| | Kill Process | ✓ | ✗ | ✗ | ✗ | ✗ |
-| **Web** | Fetch URL | ✓ | ✗ | ✓ | ✓ | ✗ |
-| | Web Search | ✓ | ✗ | ✓ | ✗ | ✗ |
-| | Browser Automation | ✗ | ✗ | ✓ | ✗ | ✗ |
-| **Agents** | Sub-agents/Tasks | ✓ | ✗ | ✓ | ✓ | ✗ |
-| | Todo/Plan Tracking | ✓ | ✓ | ✗ | ✓ | ✗ |
-| **Memory** | Save Memory/Context | ✗ | ✗ | ✓ | ✗ | ✗ |
-| **Interaction** | Ask User Questions | ✓ | ✗ | ✗ | ✗ | ✗ |
-| | Plan Mode | ✓ | ✗ | ✗ | ✗ | ✗ |
-| **Special** | View Images | ✓ | ✓ | ✗ | ✗ | ✗ |
-| | Skills/Commands | ✓ | ✗ | ✗ | ✓ | ✗ |
-| | Parallel Execution | ✗ | ✓ | ✗ | ✗ | ✗ |
+<div class="wide-table">
+
+| Tool Category | Capability | Claude Code | Codex | Cursor | Gemini | OpenCode | Asimi |
+|---------------|------------|:-----------:|:-----:|:------:|:------:|:--------:|:-----:|
+| **File Ops** | Read File | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| | Read Many Files | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ |
+| | Write File | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| | Edit/Replace | ✓ | ✓ (patch) | ✓ (patch) | ✓ | ✓ | ✓ |
+| | List Directory | ✗ | ✗ | ✓ | ✓ | ✗ | ✓ |
+| | Glob (find files) | ✓ | ✗ | ✓ | ✓ | ✓ | ✗ |
+| | Grep | ✓ | ✗ | ✓ | ✓ | ✓ | ✗ |
+| | Notebook Edit | ✓ | ✗ | ✓ | ✗ | ✗ | ✗ |
+| **Shell** | Run Commands | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| | Kill Process | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ |
+| **Web** | Fetch URL | ✓ | ✗ | ✗ | ✓ | ✓ | ✗ |
+| | Web Search | ✓ | ✗ | ✓ | ✓ | ✗ | ✗ |
+| | Browser Automation | ✗ | ✗ | ✓ | ✓ | ✗ | ✗ |
+| **Agents** | Sub-agents/Tasks | ✓ | ✗ | ✗ | ✓ | ✓ | ✗ |
+| | Todo/Plan Tracking | ✓ | ✓ | ✓ | ✗ | ✓ | ✗ |
+| **Memory** | Save Memory/Context | ✗ | ✗ | ✓ | ✓ | ✗ | ✗ |
+| **Interaction** | Ask User Questions | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ |
+| | Plan Mode | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ |
+| **Special** | View Images | ✓ | ✓ | ✓ | ✗ | ✗ | ✗ |
+| | Skills/Commands | ✓ | ✗ | ✗ | ✗ | ✓ | ✗ |
+| | Parallel Execution | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
+
+</div>
 
 
 ### Tool Count Summary
@@ -57,6 +61,7 @@ I've used the following prompt to ask [Codex](https://github.com/openai/codex), 
 |-------|:-----------:|
 | Claude Code | ~15 |
 | Codex | ~7 |
+| Cursor | ~15 |
 | Gemini | ~12  |
 | OpenCode | ~10 |
 | Asimi | 6 |

@@ -109,6 +109,44 @@
       padding: 8rem 2rem 4rem;
     }
 
+    /* Wide tables - break out of container */
+    .wide-table {
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      margin-left: -50vw;
+      overflow-x: auto;
+      padding: 0 2rem;
+    }
+
+    .wide-table table {
+      width: 100%;
+      max-width: 1100px;
+      margin: 1rem auto;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .wide-table th, .wide-table td {
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--dark-border);
+      text-align: center;
+    }
+
+    .wide-table th {
+      background: var(--bg-card);
+      color: var(--text-color);
+      font-weight: 600;
+    }
+
+    .wide-table td:first-child, .wide-table td:nth-child(2) {
+      text-align: left;
+    }
+
+    .wide-table tr:nth-child(even) {
+      background: rgba(39, 29, 48, 0.3);
+    }
+
     .article-header {
       margin-bottom: 3rem;
     }
