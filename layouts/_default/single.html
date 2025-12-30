@@ -149,8 +149,6 @@
     {{ .Content }}
   </main>
 
-  <footer>
-    <p>Made with TLC by the <a href="{{ .Site.Params.github }}">Asimi team</a></p>
-  </footer>
+  {{ partial "footer.html" . }}
 </body>
 </html>
