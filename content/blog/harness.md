@@ -19,7 +19,8 @@ They used teletypewriters — a keyboard and a printer — and `ed` was their on
 To print lines they used `1,23p`. Today, ed has been reincarnated as sed, and Codex is using it
 to read files just like Ken Thompson did back in the '70s. This approach saves tokens and keeps the tool interface minimal.
 
-I've used the following prompt to ask [Codex](https://github.com/openai/codex), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Cursor](https://www.cursor.com/), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [OpenCode](https://github.com/opencode-ai/opencode) and Asimi:
+I've used the following prompt to ask [Codex](https://github.com/openai/codex), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Cursor](https://www.cursor.com/), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [OpenCode](https://github.com/opencode-ai/opencode) and Asimi.
+If you have MCPs configured they should appear in the output as weel.
 
 > Please help me better understand the harness of the coding agents we're using. What tools are available to you in this session? 
 
@@ -42,7 +43,6 @@ I've used the following prompt to ask [Codex](https://github.com/openai/codex), 
 | | Kill Process | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ |
 | **Web** | Fetch URL | ✓ | ✗ | ✗ | ✓ | ✓ | ✗ |
 | | Web Search | ✓ | ✗ | ✓ | ✓ | ✗ | ✗ |
-| | Browser Automation | ✗ | ✗ | ✓ | ✓ | ✗ | ✗ |
 | **Agents** | Sub-agents/Tasks | ✓ | ✗ | ✗ | ✓ | ✓ | ✗ |
 | | Todo/Plan Tracking | ✓ | ✓ | ✓ | ✗ | ✓ | ✗ |
 | **Memory** | Save Memory/Context | ✗ | ✗ | ✓ | ✓ | ✗ | ✗ |
@@ -51,18 +51,7 @@ I've used the following prompt to ask [Codex](https://github.com/openai/codex), 
 | **Special** | View Images | ✓ | ✓ | ✓ | ✗ | ✗ | ✗ |
 | | Skills/Commands | ✓ | ✗ | ✗ | ✗ | ✓ | ✗ |
 | | Parallel Execution | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
+| **Total** | **Tool Count** | 15 | 7 | 14 | 11 | 10 | 6 |
 
 </div>
-
-
-### Tool Count Summary
-
-| Agent | Total Tools |
-|-------|:-----------:|
-| Claude Code | ~15 |
-| Codex | ~7 |
-| Cursor | ~15 |
-| Gemini | ~12  |
-| OpenCode | ~10 |
-| Asimi | 6 |
 
