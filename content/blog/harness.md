@@ -50,8 +50,7 @@ If you have MCPs configured they should appear in the output as weel.
 | | Plan Mode | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ |
 | **Special** | View Images | ✓ | ✓ | ✓ | ✗ | ✗ | ✗ |
 | | Skills/Commands | ✓ | ✗ | ✗ | ✗ | ✓ | ✗ |
-| | Parallel Execution | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
-| **Total** | **Tool Count** | 15 | 7 | 14 | 11 | 10 | 6 |
+| **Total** | **Tool Count** | 15 | 6 | 14 | 11 | 10 | 6 |
 
 </div>
 
