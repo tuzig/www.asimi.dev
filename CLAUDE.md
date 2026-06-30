@@ -48,3 +48,12 @@
 
 ## Container Configuration
 Configure the sandbox container image in `.agents/asimi.conf` under `[run_in_shell]` section.
+
+## Sandbox Development Notes
+- The sandbox container runs Debian Trixie with Hugo extended installed at `/usr/local/bin/hugo`.
+- `just run` starts the Hugo dev server on port 1313, bound to `0.0.0.0` so it is reachable from the host.
+- `just build` produces a minified production build in `public/`.
+- `just clean` removes `public/` and `resources/` directories.
+- `just lint` runs Hugo with `--logLevel warn` to surface template warnings.
+- `just test` runs Hugo with `--logLevel error` to catch build-breaking issues.
+- No external dependencies need installation — Hugo themes are vendored under `themes/`.
