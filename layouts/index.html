@@ -540,6 +540,79 @@
       font-size: 0.9rem;
     }
 
+    /* Court Section */
+    .court {
+      padding: 6rem 2rem;
+      background: var(--bg-secondary);
+    }
+
+    .court-subsection-title {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--text-color);
+      margin-bottom: 1.5rem;
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    .court-subsection-title:first-of-type {
+      margin-top: 0;
+    }
+
+    .court-card-analogy {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--dark-border);
+    }
+
+    .principles-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .principle-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--dark-border);
+      border-radius: 100px;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+
+    .principle-badge:hover {
+      border-color: var(--chat-border);
+      color: var(--chat-border);
+    }
+
+    .principle-badge strong {
+      color: var(--text-color);
+    }
+
+    .court-guide-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: 2.5rem;
+      transition: color 0.2s;
+    }
+
+    .court-guide-link:hover {
+      color: var(--prompt-border);
+    }
+
     /* Blog Section */
     .blog-section {
       padding: 6rem 2rem;
@@ -695,7 +768,7 @@
         margin-top: 2rem;
       }
 
-      .features, .installation, .vi-modes, .blog-section {
+      .features, .installation, .vi-modes, .court, .blog-section {
         padding: 4rem 1.5rem;
       }
     }
@@ -710,6 +783,7 @@
         <li><a href="#features">Features</a></li>
         <li><a href="#install">Install</a></li>
         <li><a href="#vi-modes">Vi Modes</a></li>
+        <li><a href="/#court">Court</a></li>
         <li><a href="#blog">Blog</a></li>
         <li><a href="{{ .Site.Params.github }}" target="_blank" rel="noopener">GitHub</a></li>
       </ul>
@@ -720,13 +794,11 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <a href="#install" class="hero-badge">
-        Try our Beta
-      </a>
-      <h1>The coding agent <br> for Buddhists</h1>
+      <h1>Claim Your Throne</h1>
+
       <p class="hero-subtitle">
-        Asimi is an opinionated, multi-model, safe and fast coding agent:
-        Enjoy the new age of agentic coding with the convenience of<br> a ex/vi/vim/neovim inspired interface.
+         Rule over your project via an imperial court of minister-agents 
+         harmonizing the three realms
       </p>
       <div class="hero-buttons">
         <a href="#install" class="btn btn-primary">
@@ -737,6 +809,7 @@
         </a>
       </div>
 
+      <!--
       <div class="terminal-demo">
         <div class="terminal-header">
           <span class="terminal-dot red"></span>
@@ -745,8 +818,59 @@
         </div>
         <div id="demo-player"></div>
       </div>
+      -->
     </div>
   </section>
+  <!-- Court Section -->
+  <section class="court" id="court">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">The Court</h2>
+        <p class="section-subtitle">
+          Asimi's court main function is to harmonize the three realm.
+          Wu-Wei  is the goal. Your 5 minister-agents are all working 
+          m imperial china The architecture behind Asimi — a Confucian-inspired system of realms, ministers, rituals and deeply ingrained principles (especially for Chinese models)
+        </p>
+      </div>
+
+      <!-- A. The Three Realms -->
+      <h3 class="court-subsection-title">The Three Realms (三界)</h3>
+      <div class="features-grid">
+        {{ range .Site.Data.court.realms }}
+        <div class="feature-card">
+          <div class="feature-icon">{{ .icon }}</div>
+          <h3 class="feature-title">{{ .title }}</h3>
+          <p class="feature-description">{{ .description }}</p>
+          <p class="court-card-analogy">{{ .analogy }}</p>
+        </div>
+        {{ end }}
+      </div>
+
+      <!-- B. The Ministers -->
+      <h3 class="court-subsection-title">The Ministers</h3>
+      <div class="modes-grid">
+        {{ range .Site.Data.court.ministers }}
+        <div class="mode-card">
+          <div class="mode-name">{{ .name }}</div>
+          <p class="mode-description">{{ .description }}</p>
+        </div>
+        {{ end }}
+      </div>
+
+      <!-- C. Key Principles -->
+      <h3 class="court-subsection-title">Key Principles</h3>
+      <div class="principles-row">
+        {{ range .Site.Data.court.principles }}
+        <span class="principle-badge"><strong>{{ .term }}</strong> — {{ .description }}</span>
+        {{ end }}
+      </div>
+
+      <div style="text-align: center;">
+        <a href="https://github.com/afittestide/asimi-cli/blob/main/RULER_GUIDE.md" target="_blank" rel="noopener" class="court-guide-link">Read the full guide →</a>
+      </div>
+    </div>
+  </section>
+
 
   <!-- Features Section -->
   <section class="features" id="features">
@@ -962,6 +1086,7 @@ chmod +x /usr/local/bin/asimi</code></pre>
       <a href="{{ .Site.Params.github }}" target="_blank" rel="noopener">GitHub</a>
       <a href="{{ .Site.Params.github }}/issues" target="_blank" rel="noopener">Issues</a>
       <a href="{{ .Site.Params.github }}/releases" target="_blank" rel="noopener">Releases</a>
+      <a href="/#court">Court</a>
       <a href="/blog/">Blog</a>
     </div>
     <p class="footer-copy">

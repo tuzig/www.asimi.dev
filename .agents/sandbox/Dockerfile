@@ -1,15 +1,22 @@
-FROM docker.io/debian:trixie-slim
+FROM debian:trixie-slim
 
-# Install common development tools + Hugo (extended)
+# Install common development tools and Hugo
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     curl \
     ripgrep \
     just \
     ca-certificates \
-    && curl -fsSL https://github.com/gohugoio/hugo/releases/download/v0.142.0/hugo_extended_0.142.0_linux-arm64.tar.gz \
-       | tar -xz -C /usr/local/bin hugo \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && HUGO_VERSION="0.153.4" \
+    && ARCH=$(uname -m) \
+    && case "$ARCH" in \
+        x86_64) ARCH="amd64" ;; \
+        aarch64|arm64) ARCH="arm64" ;; \
+        *) echo "Unsupported arch: $ARCH"; exit 1 ;; \
+    esac \
+    && curl -fsSL "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-${ARCH}.tar.gz" \
+       | tar -xz -C /usr/local/bin hugo
 
 COPY Justfile .
 # Runs as root inside the container — bootstrap must NOT use sudo

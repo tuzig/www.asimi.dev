@@ -19,8 +19,7 @@ clean-sandbox:
 
 # Install project dependencies (language-specific) — customize for your project
 install:
-    # Hugo has no dependency-install step; themes are vendored in themes/
-    @echo "No install step needed for Hugo projects"
+    @echo "No external dependencies to install — Hugo themes are vendored."
 
 # Run linter & formatter (language-specific) — customize for your project
 lint:
@@ -28,11 +27,11 @@ lint:
 
 # Run tests (language-specific) — customize for your project
 test:
-    hugo --logLevel error
+    bash tests/court-section.sh
 
 # Start the program or server — customize for your project
 run:
-    hugo server -D --bind 0.0.0.0 --port 1313 --baseURL http://localhost:1313
+    hugo server --bind 0.0.0.0 --port 1313
 
 # Build the project — customize for your project
 build: install
@@ -44,4 +43,18 @@ clean:
 
 # Install system dependencies — customize for your project
 bootstrap:
-    @echo "Hugo is installed via the Dockerfile; no bootstrap step needed"
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if ! command -v hugo &>/dev/null; then
+        HUGO_VERSION="0.153.4"
+        ARCH=$(uname -m)
+        case "$ARCH" in
+            x86_64) ARCH="amd64" ;;
+            aarch64|arm64) ARCH="arm64" ;;
+            *) echo "Unsupported arch: $ARCH"; exit 1 ;;
+        esac
+        OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+        curl -fsSL "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_${OS}-${ARCH}.tar.gz" \
+            | tar -xz -C /usr/local/bin hugo
+    fi
+    hugo version
