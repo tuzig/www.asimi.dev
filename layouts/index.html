@@ -540,6 +540,27 @@
       font-size: 0.9rem;
     }
 
+    .ministers-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 1.5rem;
+    }
+    .ministers-grid .mode-card:nth-child(-n+2) {
+      grid-column: span 3;
+    }
+    .ministers-grid .mode-card:nth-child(n+3) {
+      grid-column: span 2;
+    }
+    @media (max-width: 768px) {
+      .ministers-grid {
+        grid-template-columns: 1fr;
+      }
+      .ministers-grid .mode-card:nth-child(-n+2),
+      .ministers-grid .mode-card:nth-child(n+3) {
+        grid-column: span 1;
+      }
+    }
+
     /* Court Section */
     .court {
       padding: 6rem 2rem;
@@ -795,9 +816,8 @@
   <section class="hero">
     <div class="hero-content">
       <h1>Claim Your Throne</h1>
-
       <p class="hero-subtitle">
-         Rule over your project via an imperial court of minister-agents 
+         Rule your project via an imperial court of minister-agents 
          harmonizing the three realms
       </p>
       <div class="hero-buttons">
@@ -839,7 +859,7 @@
 
       <!-- B. The Ministers -->
       <h3 class="court-subsection-title">The Ministers</h3>
-      <div class="modes-grid">
+      <div class="ministers-grid">
         {{ range .Site.Data.court.ministers }}
         <div class="mode-card">
           <div class="mode-name">{{ .name }}</div>
@@ -960,13 +980,22 @@ brew install podman just</code></pre>
       <!-- Asimi Installation -->
       <h3 style="color: var(--text-color); font-size: 1.25rem; margin-bottom: 1rem; text-align: center;">Install Asimi</h3>
       <div class="install-tabs">
-        <button class="install-tab active" data-tab="brew">Homebrew</button>
+        <button class="install-tab active" data-tab="curl">curl</button>
+        <button class="install-tab" data-tab="brew">Homebrew</button>
         <button class="install-tab" data-tab="go">Go</button>
         <button class="install-tab" data-tab="binary">Binary</button>
       </div>
 
       <div class="install-content">
-        <div class="install-block active" id="tab-brew">
+        <div class="install-block active" id="tab-curl">
+          <div class="code-block">
+            <button class="copy-button" data-copy="curl -fsSL https://asimi.dev/installer | bash">Copy</button>
+            <pre><code><span class="comment"># One-line installer</span>
+curl -fsSL https://asimi.dev/installer | bash</code></pre>
+          </div>
+        </div>
+
+        <div class="install-block" id="tab-brew">
           <div class="code-block">
             <button class="copy-button" data-copy="brew tap afittestide/tap&#10;brew install asimi">Copy</button>
             <pre><code><span class="comment"># Add the tap and install</span>
@@ -1086,15 +1115,23 @@ chmod +x /usr/local/bin/asimi</code></pre>
   <script src="https://unpkg.com/asciinema-player@3.10.0/dist/bundle/asciinema-player.min.js"></script>
   <script>
     // Initialize asciinema player
-    AsciinemaPlayer.create('/demo.cast', document.getElementById('demo-player'), {
-      theme: 'asciinema',
-      fit: 'width',
-      autoPlay: true,
-      loop: true,
-      speed: 1.5,
-      idleTimeLimit: 2,
-      terminalFontFamily: "'JetBrains Mono', 'Fira Code', monospace"
-    });
+    try {
+      if (typeof AsciinemaPlayer !== 'undefined') {
+        AsciinemaPlayer.create('/demo.cast', document.getElementById('demo-player'), {
+          theme: 'asciinema',
+          fit: 'width',
+          autoPlay: true,
+          loop: true,
+          speed: 1.5,
+          idleTimeLimit: 2,
+          terminalFontFamily: "'JetBrains Mono', 'Fira Code', monospace"
+        });
+      } else {
+        console.error('AsciinemaPlayer not loaded');
+      }
+    } catch (err) {
+      console.error('Failed to initialize asciinema player:', err);
+    }
 
     // Mobile nav toggle
     document.getElementById('navToggle').addEventListener('click', function() {
