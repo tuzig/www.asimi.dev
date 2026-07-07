@@ -84,7 +84,8 @@ Here's how master Qwen3.7 describes it:
 
 **The Grand Design: Separation of Powers**
 
-The 三省六部 (Sān Shěng Liù Bù — "Three Departments and Six Ministries") system was formalized under the Sui Dynasty (581–618) and perfected during the Tang Dynasty (618–907). Its genius lies in a deliberate separation of powers within the bureaucracy: no single official can draft, approve, and execute a policy alone. This was designed to protect the throne from ambitious ministers.
+The 三省六部 system was formalized under the Sui Dynasty (581–618) and perfected during the Tang Dynasty (618–907). Its genius lies in a deliberate separation of powers within the bureaucracy: no single official can draft, approve, and execute a policy alone. This was designed to protect the throne from ambitious ministers.
+
 ---
 
 It sounds like dealing with the same problem our LLM agents are having.
