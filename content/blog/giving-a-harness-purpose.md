@@ -77,7 +77,7 @@ We've also further divided earth into three:
 
 It will likely change as Asimi integrates better with git and handles it under the hood.
 
-### The 3 Departments and 6 Ministers  三省六部
+### The Court of the 3 Departments and 6 Ministers  三省六部
 
 Knowing what the court harmonizes was the foundation, next it was time to learn how the court does it.
 Here's how master Qwen3.7 describes it:
@@ -95,19 +95,38 @@ I've simplified the classic structure and twisted it a bit.
 For now, there are 4 ministers in the system, each with his own storage and tools and
 all are driven by my edicts.
 
-### Workflow
+### Rituals and Li 禮
 
-Asimi let's me work old-style by chatting directly to the forge.
-This happens quite rarely.
-Usually I chat with the "Sage" and he drafts the edict.
-Based on my prompt it either tracks down a bug or look for ways to implement a new feature.
+One of the Confucian court principles is Li and
+the importance of rituals. I don't truly understand it so I'll leave it to GLM-5.2:
+
+Li is the institutional and ethical framework that defines how everyone—from the emperor down to the lowest clerk—relates to one another, what they may do, and how they must behave. It is simultaneously:
+
+- A moral code (how one ought to act with propriety)
+- An administrative system (rules and procedures for governance)
+- A cosmological principle (aligning human order with the order of Heaven)
+---
+
+Li is so important that there's a minister that's in charge of it: The Ministry of Rites 礼部.
+It turns out rituals are a way to practice Li and appease the heavens e.g, if the emperor miss the winter solstice sacrifice, the coming year will be a hard one.
+
+In Asimi, Rituals are AI-based workflows and the preferred way to act.
+Rituals weave together ministers' prompts and guardrails in a yaml
+file. They are very useful in defined repetitive tasks, like
+implementing an edict or handling an error.
+
+### My Workflow
+
+Asimi lets me work old-style by chatting directly to the Forge (Minister of Works).
+This is very uncommon as 
+usually I chat with the "Sage" and it drafts the edict.
+Based on my prompt it either tracks down a bug or looks for ways to implement a new feature.
 It's not unlike planning mode in other coding-agent.
 The big difference is what happens with the plan.
 The plan is stored in Asimi's DB as an edict with its own number.
 It can be read, edited, implemented or cancelled using the ":edicts" command.
 
-After I approve the edict I'm asked if I want to run a swift-strike ritual on it.
-If I approve a yaml-defined workflow starts:
+After I approve the edict I'm asked if I want to run a swift-strike ritual on it. If I approve the ritual runs:
 
 ```yaml
 
