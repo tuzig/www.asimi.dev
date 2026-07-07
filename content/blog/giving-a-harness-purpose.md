@@ -6,12 +6,12 @@ tags: ["asimi", "agents", "architecture", "philosophy"]
 author: 'Benny Daon'
 draft: false
 ---
-Since version 0.5.0 Asimi has had a sandbox and superior UX, at least for me.
+Since version 0.5.0 Asimi has had a sandbox and superior UX based on vim.
 Mimicking ex/vi/vim/neovim paid off and my muscle memory is now fully engaged.
 For over 30 years I've been using `:q` to exit, why stop now?
 
 It was time to tackle the next big challenge: agents and orchestration.
-I was using specialized agents since their beginning and I appreciate
+I was using specialized agents since they entered the stage and I appreciate
 their value. Still, orchestration was making me feel uneasy and I wasn't sure I
 wanted it in Asimi.
 
@@ -19,28 +19,27 @@ The scope of orchestration is too limited for my taste.
 It requires a written symphony and I don't have one. 
 It ignores the user and focuses on the agents.
 
-The metaphor I began with - an assembly line - was looking too rigid.
+The metaphor I began with - an assembly line - was too rigid.
 I needed another system and I knew it wouldn't come from software methodologies.
 We never found the ideal Software Development LifeCycle.
-Nor agile nor spec-driven-development are there. The answer had to come from elsewhere.
+Neither agile nor spec-driven-development are there. The answer had to come from elsewhere.
 
-It eventually came from Kevin, our native guide in Andong, Korea. He picked us up from our hanok on the river bank across Hahoe Folk Village. He told us we're staying in a 16th century Confucian school. I studied a bit about Confucius in my BA, but I didn't remember much.
+It eventually came from Kevin, our native guide in Andong, Korea. He picked us
+up from our hanok on the river bank across Hahoe Folk Village. He told us we're
+staying in a 16th century Confucian school. I studied a bit about Confucius in
+my BA, but I didn't remember much.
 
 ### "Harmonize. Confucians seek to Harmonize."
 
 At the time I was building the sandbox so it didn't click.
-Later, when the sandbox was done (it'll never be done) and I was battling the orchestrator, I remembered.
+Only when the sandbox was done (it'll never be done) and I was looking for a replacement to orchestrating I recalled Kevin and his Confucians.
 I remembered and wanted to learn more. Harmonize what?
 I chatted with Kimi trying to understand what is being harmonized. 
-Here's the answer from the latest KIMI (2.7):
+Here's the answer from the latest Kimi (2.7):
 
 
 In imperial Chinese political cosmology, the court understood the
-universe through the **Three Realms** or **Three Powers** (`三才`,
-*sān cái*): **`天`** *Tian* (Heaven), **`地`** *Di* (Earth), and
-**`人`** *Ren* (Humanity/Ruler). The emperor stood at their
-intersection, the *Son of Heaven* (`天子`), responsible for
-maintaining harmony across all three.
+universe through the **Three Realms** or **Three Powers** (`三才`):
 
 | Realm | Meaning | Court Significance |
 |---|---|---|
@@ -52,21 +51,25 @@ maintaining harmony across all three.
 
 ---
 
-This was something I can work with. It made my role very clear - I'm the Ruler - and I like it.
-Gone are the days of co-piloting, I'm the ruler and the coding agent runs my imperial court.
+This cosmology, with the son of heaven (aka the user) at its center was just what I was looking for.
+The best thing about it - it's already wired in the models.
+The system was used for over a thousand years and most of the classical Chinese text were written by Confucian ministers.
+The minister-agents system prompt need only the couple of classic Chinese characters for its role.
+When the model encounter these characters, all that classic learning kicks in and the agent
+becomes an imperial minister aiming to harmonize the realms.
 
-I needed a metaphor for the realms so I started with the one master Kimi suggested:
+Next, I needed a metaphor for the realms so I started with the one master Kimi suggested:
 
 - Intent - ruler's will that drives the court
 - Earth -  The repo
 - Heaven - test results, logs and incidents
 
-This definition, while a bit over simplified,  naturally covers the production.
+This definition, while a bit over simplified, naturally covers production.
 I didn't come up with the idea for Asimi to listen to logs and incident reports.
-Kimi brought it up based on the above definition.
+Kimi brought it up based on the cosmology and I liked it.
+It extends Asimi's reach making production part of the foundation. 
 
-The 3 realms are the base of each minister's.
-I've also further divided earth into three:
+We've also further divided earth into three:
 
      1. The Capital — committed, unpushed changes
      2. The Middle Kingdom — staged changes
@@ -87,27 +90,92 @@ The 三省六部 (Sān Shěng Liù Bù — "Three Departments and Six Ministries
 It sounds like dealing with the same problem our LLM agents are having.
 Their sycophancy makes them ambitious. Not for power or money, but for the ruler's approval.
 
-I've simplified the classic structure and probably twisted it a bit.
-It'll get better, but for now there are 4 ministers in the system:
+I've simplified the classic structure and twisted it a bit.
+For now, there are 4 ministers in the system, each with his own storage and tools and
+all are driven by my edicts.
 
-- Chancellor
-- Sage 
-- Forge
-- Judge
+### Workflow
 
-The Court operates through Rituals with little or no orchestration.
-Rituals are yaml-defined workflows where we weave ministers' commands with data and guardrails.
+Asimi let's me work old-style by chatting directly to the forge.
+This happens quite rarely.
+Usually I chat with the "Sage" and he drafts the edict.
+Based on my prompt it either tracks down a bug or look for ways to implement a new feature.
+It's not unlike planning mode in other coding-agent.
+The big difference is what happens with the plan.
+The plan is stored in Asimi's DB as an edict with its own number.
+It can be read, edited, implemented or cancelled using the ":edicts" command.
 
-For example, the most common ritual, "swift-strike", goes like this:
+After I approve the edict I'm asked if I want to run a swift-strike ritual on it.
+If I approve a yaml-defined workflow starts:
+
+```yaml
+
+- name: swift-strike
+  description: A tight loop for implementing edicts
+  inputs:
+    edict_id:
+      type: string
+      required: true
+  max_retries: 3
+  background:
+    - the edict details
+  steps:
+    - name: forging
+      minister: forge
+      act: |
+        Implement the changes for the edict:
+
+        {{ .edict }}
+
+        Focus on minimal, targeted changes to fulfill the intent.
+    - name: judging
+      minister: judge
+      given:
+        - "!just test"
+        - the manifests
+      act: |
+        If any tests were changed, you need to verify that were not weakened
+        and that non trivial changes are justified by the edict.
+        {{ .manifests }}
+        ...
+        When judgement is done, call record_verdict
+      then:
+        - the verdicts are passed
+        - record the judge's seal
+      on_failure: goto
+      on_failure_target: forging
+    - name: censoring
+      minister: sage
+      given:
+        - the manifests
+        - the verdicts
+      act: |
+        Review the code changes for the edict. 
+        ## Edict
+        {{ .edict }}
+        ## Manifests
+        {{ .manifests }}
+        ## Verdicts
+        {{ .verdicts }}
+      then:
+        - the precedent is approved
+        - record the sage's seal
+      on_failure: goto
+      on_failure_target: forging
+  then:
+    - the edict awaits ruler's seal
+```
+
+In a nut shell:
 
 - Forge: Implement the edict
 - Guardrail: Run the tests
 - Judge: Is new code covered by tests? Were any tests changed?
-- Guardrail: Run the tests
+- Guardrail: Judge approved
 - Sage: Review the new code is it up to imperial standards?
 
 When the judge or sage reject a change it goes back to the forge for improvements,
-and the ritual repeats until both the judge and forge seal the edict.
+and the ritual repeats until both the judge and sage seal the edict.
 No single minister can ship code alone — not even the Forge.
 
 And that, I realized, is the point. A harness without purpose is just a loop
@@ -119,6 +187,5 @@ it a *how*: separation of powers that keeps the model's ambition in check. And
 the rituals gave it a *when*: a rhythm of forge, test, judge, and review that
 flows without a conductor waving a baton.
 
-I didn't set out to build a Confucian coding agent. But I set out to build one
-that wouldn't let me down, and this is where the road led. The harness has
-purpose now, and the purpose is harmony.
+I set out to build a coding agent that won't let me down.
+My path led me to a Confucian system with a clear purpose: Harmony.
