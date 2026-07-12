@@ -1,12 +1,13 @@
 baseURL = 'https://asimi.dev/'
 languageCode = 'en-us'
 title = 'Asimi CLI'
-description = 'A safe, opinionated coding agent for the terminal'
+enableRobotsTXT = true
 
 [params]
-  tagline = 'A safe, opinionated coding agent'
-  description = 'Asimi is an opinionated, safe & fast coding agent for the terminal. Run AI-powered coding in containerized sandboxes with vi-style controls.'
+  tagline = 'An imperial court for your project'
+  description = 'Asimi is a coding agent that anointes you a ruler over a sandboxed imperial court — where your intent becomes law, ministers execute your will, and you reign over a purposeful court'
   github = 'https://github.com/afittestide/asimi-cli'
+  og_image = 'og-image.png'
   
 [markup]
   [markup.goldmark]

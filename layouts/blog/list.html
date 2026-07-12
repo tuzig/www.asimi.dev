@@ -6,6 +6,22 @@
   <title>Blog - {{ .Site.Title }}</title>
   <meta name="description" content="Updates, tutorials, and insights from the Asimi team">
   
+  <!-- Open Graph -->
+  <meta property="og:title" content="Blog - {{ .Site.Title }}">
+  <meta property="og:description" content="Updates, tutorials, and insights from the Asimi team">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ .Permalink }}">
+  <meta property="og:image" content="{{ .Site.BaseURL }}{{ .Site.Params.og_image }}">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Blog - {{ .Site.Title }}">
+  <meta name="twitter:description" content="Updates, tutorials, and insights from the Asimi team">
+  <meta name="twitter:image" content="{{ .Site.BaseURL }}{{ .Site.Params.og_image }}">
+  
+  <!-- Canonical -->
+  <link rel="canonical" href="{{ .Permalink }}">
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">

@@ -1,6 +1,6 @@
 # asimi.dev
 
-The official website for [Asimi CLI](https://github.com/afittestide/asimi-cli) - a safe, opinionated coding agent for the terminal.
+The official website for [Asimi CLI](https://github.com/afittestide/asimi-cli) — an imperial court that turns users into rulers of their code.
 
 ## Development
 
