@@ -226,6 +226,22 @@
       flex-wrap: wrap;
     }
 
+    .hero-command {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .hero-command code {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--chat-border);
+      background: var(--pane-background);
+      border: 1px solid var(--dark-border);
+      border-radius: 8px;
+      padding: 0.75rem 1.25rem;
+      display: inline-block;
+    }
+
     .btn {
       display: inline-flex;
       align-items: center;
@@ -599,12 +615,56 @@
       border-top: 1px solid var(--dark-border);
     }
 
+    .court-doctrine {
+      max-width: 800px;
+      margin: 0 auto 3rem;
+    }
+
+    .court-doctrine ul {
+      margin-top: 0.75rem;
+      padding-left: 1.25rem;
+      list-style: none;
+    }
+
+    .court-doctrine ul li {
+      position: relative;
+      padding-left: 0.5rem;
+      margin-bottom: 0.4rem;
+      color: var(--text-secondary);
+    }
+
+    .court-doctrine ul li::before {
+      content: '→';
+      position: absolute;
+      left: -1rem;
+      color: var(--text-color);
+    }
+
+    .court-intro {
+      color: var(--text-secondary);
+      max-width: 800px;
+      margin: 0 auto 1.5rem;
+      text-align: center;
+    }
+
+    .seal-chain {
+      max-width: 1000px;
+      margin: 0 auto 3rem;
+    }
+
     .principles-row {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
       margin-top: 1.5rem;
+    }
+
+    .principles-row .principle-badge {
+      width: 100%;
+      max-width: 420px;
+      justify-content: center;
+      border-radius: 12px;
     }
 
     .principle-badge {
@@ -642,6 +702,12 @@
 
     .court-guide-link:hover {
       color: var(--prompt-border);
+    }
+
+    /* Built for Developers Section */
+    .built-for-developers {
+      padding: 6rem 2rem;
+      background: var(--bg-secondary);
     }
 
     /* Blog Section */
@@ -811,10 +877,9 @@
     <div class="nav-container">
       <a href="/" class="logo">asimi</a>
       <ul class="nav-links" id="navLinks">
+        <li><a href="#court">Court</a></li>
         <li><a href="#features">Features</a></li>
         <li><a href="#install">Install</a></li>
-        <li><a href="#vi-modes">Vi Modes</a></li>
-        <li><a href="/#court">Court</a></li>
         <li><a href="#blog">Blog</a></li>
         <li><a href="{{ .Site.Params.github }}" target="_blank" rel="noopener">GitHub</a></li>
       </ul>
@@ -825,10 +890,9 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <h1>Claim Your Throne</h1>
+      <h1>{{ .Site.Data.home.hero.headline }}</h1>
       <p class="hero-subtitle">
-         Rule your project via an imperial court of minister-agents 
-         harmonizing the three realms
+        {{ .Site.Data.home.hero.subheadline }}
       </p>
       <div class="hero-buttons">
         <a href="#install" class="btn btn-primary">
@@ -838,26 +902,27 @@
           View on GitHub
         </a>
       </div>
-
-      <!--
-      <div class="terminal-demo">
-        <div class="terminal-header">
-          <span class="terminal-dot red"></span>
-          <span class="terminal-dot yellow"></span>
-          <span class="terminal-dot green"></span>
-        </div>
-        <div id="demo-player"></div>
-      </div>
-      -->
     </div>
   </section>
   <!-- Court Section -->
   <section class="court" id="court">
     <div class="container">
-      <!-- A. The Three Realms -->
+      <!-- Become a Ruler -->
+      <h2>Become a Ruler</h2>
+      <div class="court-doctrine">
+          <ul>
+            {{ range .Site.Data.home.become_a_ruler.msgs }}
+            <li>{{ . }}</li>
+            {{ end }}
+          </ul>
+        <p class="court-intro">{{ .Site.Data.home.become_a_ruler.closing }}</p>
+      </div>
+
+      <!-- The Three Realms (三界) — side-by-side cards -->
       <h3 class="court-subsection-title">The Three Realms (三界)</h3>
+      <p class="court-intro">{{ .Site.Data.home.realms.intro }}</p>
       <div class="features-grid">
-        {{ range .Site.Data.court.realms }}
+        {{ range .Site.Data.home.realms.items }}
         <div class="feature-card">
           <div class="feature-icon">{{ .icon }}</div>
           <h3 class="feature-title">{{ .title }}</h3>
@@ -867,21 +932,35 @@
         {{ end }}
       </div>
 
-      <!-- B. The Ministers -->
+      <!-- The Ministers -->
       <h3 class="court-subsection-title">The Ministers</h3>
       <div class="ministers-grid">
-        {{ range .Site.Data.court.ministers }}
+        {{ range .Site.Data.home.ministers.list }}
         <div class="mode-card">
           <div class="mode-name">{{ .name }}</div>
           <p class="mode-description">{{ .description }}</p>
         </div>
         {{ end }}
       </div>
+      <p class="court-intro">{{ .Site.Data.home.ministers.closing }}</p>
 
-      <!-- C. Key Principles -->
+      <!-- The Seal Chain -->
+      <h3 class="court-subsection-title">The Seal Chain — Ascension</h3>
+      <p class="court-intro">An edict ascends from Earth to Heaven through the seal chain:</p>
+      <div class="seal-chain features-grid">
+        {{ range .Site.Data.home.seal_chain }}
+        <div class="feature-card">
+          <div class="feature-icon">{{ .icon }}</div>
+          <h3 class="feature-title">{{ .title }}</h3>
+          <p class="feature-description">{{ .title }} — {{ .description }}</p>
+        </div>
+        {{ end }}
+      </div>
+
+      <!-- Key Principles -->
       <h3 class="court-subsection-title">Key Principles</h3>
       <div class="principles-row">
-        {{ range .Site.Data.court.principles }}
+        {{ range .Site.Data.home.principles }}
         <span class="principle-badge"><strong>{{ .term }}</strong> — {{ .description }}</span>
         {{ end }}
       </div>
@@ -957,11 +1036,12 @@
     </div>
   </section>
 
+
   <!-- Installation Section -->
   <section class="installation" id="install">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">Quick Start</h2>
+        <h2 class="section-title">Installation</h2>
         <p class="section-subtitle">
           Get up and running in minutes
         </p>
@@ -973,10 +1053,38 @@
         <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1.5rem;">
           First, install these two great tools:
         </p>
-        <div class="code-block">
-          <button class="copy-button" data-copy="brew install podman just">Copy</button>
-          <pre><code><span class="comment"># macOS (Homebrew)</span>
+        <div class="tab-group">
+          <div class="install-tabs">
+            <button class="install-tab active" data-tab="dep-brew">macOS</button>
+            <button class="install-tab" data-tab="dep-dnf">Fedora / RHEL</button>
+            <button class="install-tab" data-tab="dep-apt">Debian / Ubuntu</button>
+          </div>
+          <div class="install-content">
+            <div class="install-block active" id="tab-dep-brew">
+              <div class="code-block">
+                <button class="copy-button" data-copy="brew install podman just">Copy</button>
+                <pre><code><span class="comment"># macOS (Homebrew)</span>
 brew install podman just</code></pre>
+              </div>
+            </div>
+
+            <div class="install-block" id="tab-dep-dnf">
+              <div class="code-block">
+                <button class="copy-button" data-copy="sudo dnf install podman just">Copy</button>
+                <pre><code><span class="comment"># Fedora / RHEL</span>
+sudo dnf install podman just</code></pre>
+              </div>
+            </div>
+
+            <div class="install-block" id="tab-dep-apt">
+              <div class="code-block">
+                <button class="copy-button" data-copy="sudo apt update&#10;sudo apt install podman just">Copy</button>
+                <pre><code><span class="comment"># Debian / Ubuntu</span>
+sudo apt update
+sudo apt install podman just</code></pre>
+              </div>
+            </div>
+          </div>
         </div>
         <p style="color: var(--text-secondary); text-align: center; margin-top: 1.5rem; margin-bottom: 0.5rem;">
           Or install separately:
@@ -989,88 +1097,55 @@ brew install podman just</code></pre>
 
       <!-- Asimi Installation -->
       <h3 style="color: var(--text-color); font-size: 1.25rem; margin-bottom: 1rem; text-align: center;">Install Asimi</h3>
-      <div class="install-tabs">
-        <button class="install-tab active" data-tab="curl">curl</button>
-        <button class="install-tab" data-tab="brew">Homebrew</button>
-        <button class="install-tab" data-tab="go">Go</button>
-        <button class="install-tab" data-tab="binary">Binary</button>
-      </div>
-
-      <div class="install-content">
-        <div class="install-block active" id="tab-curl">
-          <div class="code-block">
-            <button class="copy-button" data-copy="curl -fsSL https://asimi.dev/installer | bash">Copy</button>
-            <pre><code><span class="comment"># One-line installer</span>
-curl -fsSL https://asimi.dev/installer | bash</code></pre>
-          </div>
+      <div class="tab-group">
+        <div class="install-tabs">
+          <button class="install-tab active" data-tab="curl">curl</button>
+          <button class="install-tab" data-tab="brew">Homebrew</button>
+          <button class="install-tab" data-tab="go">Go</button>
+          <button class="install-tab" data-tab="binary">Binary</button>
         </div>
 
-        <div class="install-block" id="tab-brew">
-          <div class="code-block">
-            <button class="copy-button" data-copy="brew tap afittestide/tap&#10;brew install asimi">Copy</button>
-            <pre><code><span class="comment"># Add the tap and install</span>
+        <div class="install-content">
+          <div class="install-block active" id="tab-curl">
+            <div class="code-block">
+              <button class="copy-button" data-copy="curl -fsSL https://asimi.dev/installer | bash">Copy</button>
+              <pre><code><span class="comment"># One-line installer</span>
+curl -fsSL https://asimi.dev/installer | bash</code></pre>
+            </div>
+          </div>
+
+          <div class="install-block" id="tab-brew">
+            <div class="code-block">
+              <button class="copy-button" data-copy="brew tap afittestide/tap&#10;brew install asimi">Copy</button>
+              <pre><code><span class="comment"># Add the tap and install</span>
 brew tap afittestide/tap
 brew install asimi</code></pre>
+            </div>
           </div>
-        </div>
 
-        <div class="install-block" id="tab-go">
-          <div class="code-block">
-            <button class="copy-button" data-copy="go install github.com/afittestide/asimi@latest">Copy</button>
-            <pre><code><span class="comment"># Install with Go 1.25+</span>
+          <div class="install-block" id="tab-go">
+            <div class="code-block">
+              <button class="copy-button" data-copy="go install github.com/afittestide/asimi@latest">Copy</button>
+              <pre><code><span class="comment"># Install with Go 1.25+</span>
 go install github.com/afittestide/asimi@latest</code></pre>
+            </div>
           </div>
-        </div>
 
-        <div class="install-block" id="tab-binary">
-          <div class="code-block">
-            <button class="copy-button" data-copy="cp asimi /usr/local/bin/&#10;chmod +x /usr/local/bin/asimi">Copy</button>
-            <pre><code><span class="comment"># Download from releases</span>
+          <div class="install-block" id="tab-binary">
+            <div class="code-block">
+              <button class="copy-button" data-copy="cp asimi /usr/local/bin/&#10;chmod +x /usr/local/bin/asimi">Copy</button>
+              <pre><code><span class="comment"># Download from releases</span>
 <a href="https://github.com/afittestide/asimi-cli/releases/latest" target="_blank" rel="noopener" class="accent-link">github.com/afittestide/asimi-cli/releases/latest</a>
 
 <span class="comment"># Copy to your bin directory</span>
 cp asimi /usr/local/bin/
 chmod +x /usr/local/bin/asimi</code></pre>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-
-  <!-- Vi Modes Section -->
-  <section class="vi-modes" id="vi-modes">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Vi-Style Interface</h2>
-        <p class="section-subtitle">
-          Keep your fingers on the middle row using the good old modes:
-        </p>
-      </div>
-      <div class="modes-grid">
-        <div class="mode-card">
-          <div class="mode-name">Insert Mode</div>
-          <p class="mode-description">Type your prompts naturally. Just like editing text in vi.</p>
-        </div>
-        <div class="mode-card">
-          <div class="mode-name">Normal Mode</div>
-          <p class="mode-description">Navigate and edit your prompt with familiar keybindings.</p>
-        </div>
-        <div class="mode-card">
-          <div class="mode-name">Scroll Mode</div>
-          <p class="mode-description">Never touch that rodent. Press Ctrl-B to enter, then scroll through output with your keys.</p>
-        </div>
-        <div class="mode-card">
-          <div class="mode-name">Command Mode</div>
-          <p class="mode-description">Type `:` to enter asimi commands and `:!` for shell commands in the sandbox</p>
-        </div>
-        <div class="mode-card">
-          <div class="mode-name">Select Mode</div>
-          <p class="mode-description">Choose sessions to resume, models to connect, and more.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Blog Section -->
   <section class="blog-section" id="blog">
     <div class="container">
@@ -1104,6 +1179,22 @@ chmod +x /usr/local/bin/asimi</code></pre>
         <p>Blog posts coming soon! Stay tuned for updates, tutorials, and more.</p>
       </div>
       {{ end }}
+    </div>
+  </section>
+
+  <!-- Built for Developers Section -->
+  <section class="built-for-developers" id="built-for-developers">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Built for Developers</h2>
+      </div>
+      <div class="features-grid">
+        {{ range .Site.Data.home.built_for_developers }}
+        <div class="feature-card">
+          <p class="feature-description">{{ . }}</p>
+        </div>
+        {{ end }}
+      </div>
     </div>
   </section>
 
@@ -1148,14 +1239,18 @@ chmod +x /usr/local/bin/asimi</code></pre>
       document.getElementById('navLinks').classList.toggle('active');
     });
 
-    // Install tabs
-    document.querySelectorAll('.install-tab').forEach(tab => {
-      tab.addEventListener('click', function() {
-        document.querySelectorAll('.install-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.install-block').forEach(b => b.classList.remove('active'));
-        
-        this.classList.add('active');
-        document.getElementById('tab-' + this.dataset.tab).classList.add('active');
+    // Install tabs — each .tab-group is self-contained
+    document.querySelectorAll('.tab-group').forEach(group => {
+      const tabs = group.querySelectorAll('.install-tab');
+      const blocks = group.querySelectorAll('.install-block');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          tabs.forEach(t => t.classList.remove('active'));
+          blocks.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          const target = group.querySelector('#tab-' + this.dataset.tab);
+          if (target) target.classList.add('active');
+        });
       });
     });
 
