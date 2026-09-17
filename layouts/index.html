@@ -145,11 +145,10 @@
 
     /* Hero Section */
     .hero {
-      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 8rem 2rem 4rem;
+      padding: 6rem 2rem 4rem;
       position: relative;
       overflow: hidden;
     }
@@ -593,16 +592,16 @@
       background: var(--bg-secondary);
     }
 
-    .court-subsection-title {
-      font-size: 1.35rem;
-      font-weight: 600;
-      color: var(--text-color);
-      margin-bottom: 1.5rem;
-      margin-top: 3rem;
+    /* Court subsections reuse .section-title; restore the vertical rhythm
+       that the retired .court-subsection-title class used to provide. The
+       first subsection follows .court-doctrine, whose own bottom margin
+       provides the leading gap. */
+    .court .container > h3.section-title {
+      margin-top: 4rem;
       text-align: center;
     }
 
-    .court-subsection-title:first-of-type {
+    .court .court-doctrine + h3.section-title {
       margin-top: 0;
     }
 
@@ -617,16 +616,25 @@
 
     .court-doctrine {
       max-width: 800px;
-      margin: 0 auto 3rem;
+      margin: 0 auto 4rem;
     }
 
-    .court-doctrine ul {
+    /* Tibetan numerals for the Become a Ruler steps — explicit symbols
+       guarantee the glyphs across browsers, not relying on the
+       predefined `tibetan` counter style being natively supported. */
+    @counter-style tibetan-numerals {
+      system: numeric;
+      symbols: "༠" "༡" "༢" "༣" "༤" "༥" "༦" "༧" "༨" "༩";
+      suffix: " ";
+    }
+
+    .court-doctrine ol {
       margin-top: 0.75rem;
-      padding-left: 1.25rem;
-      list-style: none;
+      padding-left: 1.75rem;
+      list-style-type: tibetan-numerals;
     }
 
-    .court-doctrine ul li {
+    .court-doctrine ol li {
       position: relative;
       padding-left: 0.5rem;
       margin-bottom: 0.4rem;
@@ -636,10 +644,7 @@
       color: var(--text-primary);
     }
 
-    .court-doctrine ul li::before {
-      content: '→';
-      position: absolute;
-      left: -1.5rem;
+    .court-doctrine ol li::marker {
       color: var(--text-color);
     }
 
@@ -647,13 +652,13 @@
       color: var(--text-primary);
       font-size: 1.15rem;
       max-width: 800px;
-      margin: 0 auto 1.5rem;
+      margin: 1rem auto 1.5rem;
       text-align: center;
     }
 
     .seal-chain {
       max-width: 1000px;
-      margin: 0 auto 3rem;
+      margin: 0 auto 4rem;
     }
 
     .principles-row {
@@ -708,10 +713,35 @@
       color: var(--prompt-border);
     }
 
-    /* Built for Developers Section */
-    .built-for-developers {
+    /* Become a Contributor Section */
+    .become-a-contributor {
       padding: 6rem 2rem;
       background: var(--bg-secondary);
+    }
+
+    .contributor-list {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .contributor-list ol {
+      margin-top: 0.75rem;
+      padding-left: 1.75rem;
+      list-style-type: tibetan-numerals;
+    }
+
+    .contributor-list ol li {
+      position: relative;
+      padding-left: 0.5rem;
+      margin-bottom: 0.4rem;
+      font-size: 1.35rem;
+      line-height: 1.5;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .contributor-list ol li::marker {
+      color: var(--text-color);
     }
 
     /* Blog Section */
@@ -869,7 +899,7 @@
         margin-top: 2rem;
       }
 
-      .features, .installation, .vi-modes, .court, .blog-section {
+      .features, .installation, .vi-modes, .court, .blog-section, .become-a-contributor {
         padding: 4rem 1.5rem;
       }
     }
@@ -879,31 +909,30 @@
   <!-- Navigation -->
   <nav>
     <div class="nav-container">
-      <a href="/" class="logo">asimi</a>
+      <a href="/" class="logo">{{ .Site.Data.home.nav.logo | safeHTML }}</a>
       <ul class="nav-links" id="navLinks">
-        <li><a href="#court">Court</a></li>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#install">Install</a></li>
-        <li><a href="#blog">Blog</a></li>
+        {{ range .Site.Data.home.nav.links }}
+        <li><a href="{{ .href }}">{{ .label | safeHTML }}</a></li>
+        {{ end }}
         <li><a href="{{ .Site.Params.github }}" target="_blank" rel="noopener">GitHub</a></li>
       </ul>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
+      <button class="nav-toggle" id="navToggle" aria-label="{{ .Site.Data.home.nav.toggle_label | safeHTML }}">{{ .Site.Data.home.nav.toggle_icon | safeHTML }}</button>
     </div>
   </nav>
 
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <h1>{{ .Site.Data.home.hero.headline_line1 }}<br />{{ .Site.Data.home.hero.headline_line2 }}</h1>
+      <h1>{{ .Site.Data.home.hero.headline_line1 | safeHTML }}<br />{{ .Site.Data.home.hero.headline_line2 | safeHTML }}</h1>
       <p class="hero-subtitle">
-        {{ .Site.Data.home.hero.subheadline }}
+        {{ .Site.Data.home.hero.subheadline | safeHTML }}
       </p>
       <div class="hero-buttons">
         <a href="#install" class="btn btn-primary">
-          Get Started →
+          {{ .Site.Data.home.hero.primary_button }}
         </a>
         <a href="{{ .Site.Params.github }}" class="btn btn-secondary" target="_blank" rel="noopener">
-          View on GitHub
+          {{ .Site.Data.home.hero.secondary_button }}
         </a>
       </div>
     </div>
@@ -911,65 +940,68 @@
   <!-- Court Section -->
   <section class="court" id="court">
     <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">{{ .Site.Data.home.court.title | safeHTML }}</h2>
+      </div>
       <!-- Become a Ruler -->
       <div class="court-doctrine">
-          <ul>
+          <ol>
             {{ range .Site.Data.home.become_a_ruler.msgs }}
-            <li>{{ . }}</li>
+            <li>{{ . | safeHTML }}</li>
             {{ end }}
-          </ul>
-        <p class="court-intro">{{ .Site.Data.home.become_a_ruler.closing }}</p>
+          </ol>
+        <p class="court-intro">{{ .Site.Data.home.become_a_ruler.closing | safeHTML }}</p>
       </div>
 
       <!-- The Three Realms (三界) — side-by-side cards -->
-      <h3 class="court-subsection-title">The Three Realms (三界)</h3>
-      <p class="court-intro">{{ .Site.Data.home.realms.intro }}</p>
+      <h3 class="section-title">{{ .Site.Data.home.realms.title | safeHTML }}</h3>
+      <p class="court-intro">{{ .Site.Data.home.realms.intro | safeHTML }}</p>
       <div class="features-grid">
         {{ range .Site.Data.home.realms.items }}
         <div class="feature-card">
           <div class="feature-icon">{{ .icon }}</div>
-          <h3 class="feature-title">{{ .title }}</h3>
-          <p class="feature-description">{{ .description }}</p>
-          <p class="court-card-analogy">{{ .analogy }}</p>
+          <h3 class="feature-title">{{ .title | safeHTML }}</h3>
+          <p class="feature-description">{{ .description | safeHTML }}</p>
+          <p class="court-card-analogy">{{ .analogy | safeHTML }}</p>
         </div>
         {{ end }}
       </div>
 
       <!-- The Ministers -->
-      <h3 class="court-subsection-title">The Ministers</h3>
+      <h3 class="section-title">{{ .Site.Data.home.ministers.title }}</h3>
       <div class="ministers-grid">
         {{ range .Site.Data.home.ministers.list }}
         <div class="mode-card">
-          <div class="mode-name">{{ .name }}</div>
-          <p class="mode-description">{{ .description }}</p>
+          <div class="mode-name">{{ .name | safeHTML }}</div>
+          <p class="mode-description">{{ .description | safeHTML }}</p>
         </div>
         {{ end }}
       </div>
-      <p class="court-intro">{{ .Site.Data.home.ministers.closing }}</p>
+      <p class="court-intro">{{ .Site.Data.home.ministers.closing | safeHTML }}</p>
 
       <!-- The Seal Chain -->
-      <h3 class="court-subsection-title">The Seal Chain — Ascension</h3>
-      <p class="court-intro">An edict ascends from Earth to Heaven through the seal chain:</p>
+      <h3 class="section-title">{{ .Site.Data.home.seal_chain.title | safeHTML }}</h3>
+      <p class="court-intro">{{ .Site.Data.home.seal_chain.intro | safeHTML }}</p>
       <div class="seal-chain features-grid">
-        {{ range .Site.Data.home.seal_chain }}
+        {{ range .Site.Data.home.seal_chain.items }}
         <div class="feature-card">
           <div class="feature-icon">{{ .icon }}</div>
-          <h3 class="feature-title">{{ .title }}</h3>
-          <p class="feature-description">{{ .title }} — {{ .description }}</p>
+          <h3 class="feature-title">{{ .title | safeHTML }}</h3>
+          <p class="feature-description">{{ .title | safeHTML }} — {{ .description | safeHTML }}</p>
         </div>
         {{ end }}
       </div>
 
       <!-- Key Principles -->
-      <h3 class="court-subsection-title">Key Principles</h3>
+      <h3 class="section-title">{{ .Site.Data.home.principles.title | safeHTML }}</h3>
       <div class="principles-row">
-        {{ range .Site.Data.home.principles }}
+        {{ range .Site.Data.home.principles.items }}
         <span class="principle-badge"><strong>{{ .term }}</strong> — {{ .description }}</span>
         {{ end }}
       </div>
 
       <div style="text-align: center;">
-        <a href="https://github.com/afittestide/asimi-cli/blob/main/RULER_GUIDE.md" target="_blank" rel="noopener" class="court-guide-link">Read the full guide →</a>
+        <a href="{{ .Site.Data.home.court_guide.href }}" target="_blank" rel="noopener" class="court-guide-link">{{ .Site.Data.home.court_guide.text | safeHTML }}</a>
       </div>
     </div>
   </section>
@@ -979,62 +1011,34 @@
   <section class="features" id="features">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">Batteries Included</h2>
+        <h2 class="section-title">{{ .Site.Data.home.features.title }}</h2>
       </div>
 
       <div class="features-grid">
+        {{ range .Site.Data.home.features.items }}
         <div class="feature-card">
-          <div class="feature-icon">🛠️</div>
-          <h3 class="feature-title">DevOps Init</h3>
+          <div class="feature-icon">{{ .icon }}</div>
+          <h3 class="feature-title">{{ .title | safeHTML }}</h3>
+          {{ if .bullets }}
           <div class="feature-description">
-            An init command that creates:
+            {{ .description | safeHTML }}
             <ul>
-                <li>A Justfile to hold the project's scripts</li>
-                <li>A Dockerfile to define the sandbox where the model's shell runs</li>
+              {{ range .bullets }}
+              <li>{{ . | safeHTML }}</li>
+              {{ end }}
             </ul>
           </div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🎨</div>
-          <h3 class="feature-title">Vi Mimicry</h3>
+          {{ else if .code }}
           <p class="feature-description">
-            Based on the fittest dev tool ever made. If you know ex/vi/vim/neovim, you already know Asimi.
+            {{ .description_prefix | safeHTML }} <code>{{ .code }}</code> {{ .description_suffix | safeHTML }}
           </p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">🏝️</div>
-          <h3 class="feature-title">Podman Sandboxes</h3>
+          {{ else }}
           <p class="feature-description">
-            Agent's shell runs in its own container. Your host system stays protected while the models works freely.
+            {{ .description | safeHTML }}
           </p>
+          {{ end }}
         </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">🦙</div>
-          <h3 class="feature-title">Multiple LLM Providers</h3>
-          <p class="feature-description">
-            Support for Ollama, Claude Pro/Max, and OpenAI API v1 compatible services. Use your preferred model.
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">⚡</div>
-          <h3 class="feature-title">30x+ Faster Shell</h3>
-          <p class="feature-description">
-            Asimi's containerized consistent shell uses subshells to isolate commands.
-            This minimizes overhead and save on slow exec times.
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">🧹</div>
-          <h3 class="feature-title">Less Clutter</h3>
-          <p class="feature-description">
-            All special files live under the <code>.agents</code> directory. TOML-based config keeps it clean and documented.
-          </p>
-        </div>
-
+        {{ end }}
       </div>
     </div>
   </section>
@@ -1044,107 +1048,66 @@
   <section class="installation" id="install">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">Installation</h2>
+        <h2 class="section-title">{{ .Site.Data.home.installation.title }}</h2>
         <p class="section-subtitle">
-          Get up and running in minutes
+          {{ .Site.Data.home.installation.subtitle }}
         </p>
       </div>
 
       <!-- System Dependencies -->
       <div class="install-content" style="margin-bottom: 3rem;">
-        <h3 style="color: var(--text-color); font-size: 1.25rem; margin-bottom: 1rem; text-align: center;">System Dependencies</h3>
+        <h3 style="color: var(--text-color); font-size: 1.25rem; margin-bottom: 1rem; text-align: center;">{{ .Site.Data.home.installation.dependencies_title }}</h3>
         <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1.5rem;">
-          First, install these two great tools:
+          {{ .Site.Data.home.installation.dependencies_intro }}
         </p>
         <div class="tab-group">
           <div class="install-tabs">
-            <button class="install-tab active" data-tab="dep-brew">macOS</button>
-            <button class="install-tab" data-tab="dep-dnf">Fedora / RHEL</button>
-            <button class="install-tab" data-tab="dep-apt">Debian / Ubuntu</button>
+            {{ range $i, $tab := .Site.Data.home.installation.dependencies_tabs }}
+            <button class="install-tab{{ if eq $i 0 }} active{{ end }}" data-tab="{{ $tab.id }}">{{ $tab.label }}</button>
+            {{ end }}
           </div>
           <div class="install-content">
-            <div class="install-block active" id="tab-dep-brew">
+            {{ range $i, $tab := .Site.Data.home.installation.dependencies_tabs }}
+            <div class="install-block{{ if eq $i 0 }} active{{ end }}" id="tab-{{ $tab.id }}">
               <div class="code-block">
-                <button class="copy-button" data-copy="brew install podman just">Copy</button>
-                <pre><code><span class="comment"># macOS (Homebrew)</span>
-brew install podman just</code></pre>
+                <button class="copy-button" data-copy="{{ $tab.copy | safeHTMLAttr }}">{{ $.Site.Data.home.installation.copy_label }}</button>
+                <pre><code><span class="comment">{{ $tab.comment | safeHTML }}</span>
+{{ $tab.command | safeHTML }}</code></pre>
               </div>
             </div>
-
-            <div class="install-block" id="tab-dep-dnf">
-              <div class="code-block">
-                <button class="copy-button" data-copy="sudo dnf install podman just">Copy</button>
-                <pre><code><span class="comment"># Fedora / RHEL</span>
-sudo dnf install podman just</code></pre>
-              </div>
-            </div>
-
-            <div class="install-block" id="tab-dep-apt">
-              <div class="code-block">
-                <button class="copy-button" data-copy="sudo apt update&#10;sudo apt install podman just">Copy</button>
-                <pre><code><span class="comment"># Debian / Ubuntu</span>
-sudo apt update
-sudo apt install podman just</code></pre>
-              </div>
-            </div>
+            {{ end }}
           </div>
         </div>
         <p style="color: var(--text-secondary); text-align: center; margin-top: 1.5rem; margin-bottom: 0.5rem;">
-          Or install separately:
+          {{ .Site.Data.home.installation.dependencies_separately }}
         </p>
         <p style="color: var(--text-secondary); text-align: center; font-size: 0.9rem;">
-          <a href="https://podman.io/docs/installation" target="_blank" rel="noopener" class="accent-link">Podman</a> - like Docker but safer<br>
-          <a href="https://github.com/casey/just" target="_blank" rel="noopener" class="accent-link">Just</a> - to collect all scripts in a Justfile
+          {{ range $i, $link := .Site.Data.home.installation.dependencies_links }}{{ if $i }}<br>{{ end }}<a href="{{ $link.href }}" target="_blank" rel="noopener" class="accent-link">{{ $link.label }}</a> {{ $link.suffix }}{{ end }}
         </p>
       </div>
 
       <!-- Asimi Installation -->
-      <h3 style="color: var(--text-color); font-size: 1.25rem; margin-bottom: 1rem; text-align: center;">Install Asimi</h3>
+      <h3 style="color: var(--text-color); font-size: 1.25rem; margin-bottom: 1rem; text-align: center;">{{ .Site.Data.home.installation.asimi_title }}</h3>
       <div class="tab-group">
         <div class="install-tabs">
-          <button class="install-tab active" data-tab="curl">curl</button>
-          <button class="install-tab" data-tab="brew">Homebrew</button>
-          <button class="install-tab" data-tab="go">Go</button>
-          <button class="install-tab" data-tab="binary">Binary</button>
+          {{ range $i, $tab := .Site.Data.home.installation.asimi_tabs }}
+          <button class="install-tab{{ if eq $i 0 }} active{{ end }}" data-tab="{{ $tab.id }}">{{ $tab.label | safeHTML }}</button>
+          {{ end }}
         </div>
 
         <div class="install-content">
-          <div class="install-block active" id="tab-curl">
+          {{ range $i, $tab := .Site.Data.home.installation.asimi_tabs }}
+          <div class="install-block{{ if eq $i 0 }} active{{ end }}" id="tab-{{ $tab.id }}">
             <div class="code-block">
-              <button class="copy-button" data-copy="curl -fsSL https://asimi.dev/installer | bash">Copy</button>
-              <pre><code><span class="comment"># One-line installer</span>
-curl -fsSL https://asimi.dev/installer | bash</code></pre>
+              <button class="copy-button" data-copy="{{ $tab.copy | safeHTMLAttr }}">{{ $.Site.Data.home.installation.copy_label }}</button>
+              <pre><code><span class="comment">{{ $tab.comment | safeHTML }}</span>
+{{ if $tab.href }}<a href="{{ $tab.href }}" target="_blank" rel="noopener" class="accent-link">{{ $tab.href_text }}</a>
+
+<span class="comment">{{ $tab.comment_2 | safeHTML }}</span>
+{{ end }}{{ $tab.command | safeHTML }}</code></pre>
             </div>
           </div>
-
-          <div class="install-block" id="tab-brew">
-            <div class="code-block">
-              <button class="copy-button" data-copy="brew tap afittestide/tap&#10;brew install asimi">Copy</button>
-              <pre><code><span class="comment"># Add the tap and install</span>
-brew tap afittestide/tap
-brew install asimi</code></pre>
-            </div>
-          </div>
-
-          <div class="install-block" id="tab-go">
-            <div class="code-block">
-              <button class="copy-button" data-copy="go install github.com/afittestide/asimi@latest">Copy</button>
-              <pre><code><span class="comment"># Install with Go 1.25+</span>
-go install github.com/afittestide/asimi@latest</code></pre>
-            </div>
-          </div>
-
-          <div class="install-block" id="tab-binary">
-            <div class="code-block">
-              <button class="copy-button" data-copy="cp asimi /usr/local/bin/&#10;chmod +x /usr/local/bin/asimi">Copy</button>
-              <pre><code><span class="comment"># Download from releases</span>
-<a href="https://github.com/afittestide/asimi-cli/releases/latest" target="_blank" rel="noopener" class="accent-link">github.com/afittestide/asimi-cli/releases/latest</a>
-
-<span class="comment"># Copy to your bin directory</span>
-cp asimi /usr/local/bin/
-chmod +x /usr/local/bin/asimi</code></pre>
-            </div>
-          </div>
+          {{ end }}
         </div>
       </div>
     </div>
@@ -1174,29 +1137,32 @@ chmod +x /usr/local/bin/asimi</code></pre>
       </div>
       {{ if gt (len $posts) 3 }}
       <div style="text-align: center;">
-        <a href="/blog/" class="view-all-link">View all posts →</a>
+        <a href="/blog/" class="view-all-link">{{ .Site.Data.home.blog.view_all | safeHTML }}</a>
       </div>
       {{ end }}
       {{ else }}
       <div class="blog-empty">
-        <p>Blog posts coming soon! Stay tuned for updates, tutorials, and more.</p>
+        <p>{{ .Site.Data.home.blog.empty | safeHTML }}</p>
       </div>
       {{ end }}
     </div>
   </section>
 
-  <!-- Built for Developers Section -->
-  <section class="built-for-developers" id="built-for-developers">
+  <!-- Become a Contributor Section -->
+  <section class="become-a-contributor" id="become-a-contributor">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">Built for Developers</h2>
+        <h2 class="section-title">{{ .Site.Data.home.become_a_contributor.title | safeHTML }}</h2>
+        <p class="section-subtitle">
+          {{ .Site.Data.home.become_a_contributor.intro | safeHTML }}
+        </p>
       </div>
-      <div class="features-grid">
-        {{ range .Site.Data.home.built_for_developers }}
-        <div class="feature-card">
-          <p class="feature-description">{{ . }}</p>
-        </div>
-        {{ end }}
+      <div class="contributor-list">
+        <ol>
+          {{ range .Site.Data.home.become_a_contributor.items }}
+          <li>{{ . | safeHTML }}</li>
+          {{ end }}
+        </ol>
       </div>
     </div>
   </section>
@@ -1204,15 +1170,15 @@ chmod +x /usr/local/bin/asimi</code></pre>
   <!-- Footer -->
   <footer>
     <div class="footer-links">
-      <a href="{{ .Site.Params.github }}" target="_blank" rel="noopener">GitHub</a>
-      <a href="{{ .Site.Params.github }}/issues" target="_blank" rel="noopener">Issues</a>
-      <a href="{{ .Site.Params.github }}/releases" target="_blank" rel="noopener">Releases</a>
-      <a href="/#court">Court</a>
-      <a href="/blog/">Blog</a>
+      <a href="{{ .Site.Params.github }}" target="_blank" rel="noopener">{{ .Site.Data.home.footer.links.repo }}</a>
+      <a href="{{ .Site.Params.github }}/issues" target="_blank" rel="noopener">{{ .Site.Data.home.footer.links.issues }}</a>
+      <a href="{{ .Site.Params.github }}/releases" target="_blank" rel="noopener">{{ .Site.Data.home.footer.links.releases }}</a>
+      <a href="/#court">{{ .Site.Data.home.footer.links.court }}</a>
+      <a href="/blog/">{{ .Site.Data.home.footer.links.blog }}</a>
     </div>
     <p class="footer-copy">
-      Made with TLC by the <a href="{{ .Site.Params.github }}">Asimi team</a><br>
-      Safe, fun, and high-quality code generation
+      {{ .Site.Data.home.footer.brand | safeHTML }} <a href="{{ .Site.Params.github }}">{{ .Site.Data.home.footer.brand_link | safeHTML }}</a><br>
+      {{ .Site.Data.home.footer.tagline | safeHTML }}
     </p>
   </footer>
 
@@ -1290,3 +1256,12 @@ chmod +x /usr/local/bin/asimi</code></pre>
   </script>
 </body>
 </html>
+html>
+});
+  </script>
+</body>
+</html>
+html>
+</body>
+</html>
+html>
