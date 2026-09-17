@@ -630,18 +630,22 @@
       position: relative;
       padding-left: 0.5rem;
       margin-bottom: 0.4rem;
-      color: var(--text-secondary);
+      font-size: 1.35rem;
+      line-height: 1.5;
+      font-weight: 500;
+      color: var(--text-primary);
     }
 
     .court-doctrine ul li::before {
       content: '→';
       position: absolute;
-      left: -1rem;
+      left: -1.5rem;
       color: var(--text-color);
     }
 
     .court-intro {
-      color: var(--text-secondary);
+      color: var(--text-primary);
+      font-size: 1.15rem;
       max-width: 800px;
       margin: 0 auto 1.5rem;
       text-align: center;
@@ -890,7 +894,7 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <h1>{{ .Site.Data.home.hero.headline }}</h1>
+      <h1>{{ .Site.Data.home.hero.headline_line1 }}<br />{{ .Site.Data.home.hero.headline_line2 }}</h1>
       <p class="hero-subtitle">
         {{ .Site.Data.home.hero.subheadline }}
       </p>
@@ -908,7 +912,6 @@
   <section class="court" id="court">
     <div class="container">
       <!-- Become a Ruler -->
-      <h2>Become a Ruler</h2>
       <div class="court-doctrine">
           <ul>
             {{ range .Site.Data.home.become_a_ruler.msgs }}

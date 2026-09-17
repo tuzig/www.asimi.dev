@@ -25,9 +25,9 @@ install:
 lint:
     hugo --logLevel warn
 
-# Run tests (language-specific) — customize for your project
+# Tests removed by the Great Tests Purge (Edict 860) — content is the product.
 test:
-    bash tests/court-section.sh
+    @echo "No tests — content-dependent suite removed (Great Tests Purge)."
 
 # Start the program or server — customize for your project
 run:

@@ -15,7 +15,7 @@
 - `just run` - Start dev server at http://localhost:1313 (bound to 0.0.0.0)
 
 ## Test Commands
-- `just test` - Run `tests/court-section.sh` to validate Court section rendering
+- `just test` - No-op; the content-dependent Court section suite was removed (Great Tests Purge, Edict 860) because content is the product and pinning authored prose in CI defies a static site generator
 - `just lint` - Run Hugo with `--logLevel warn` to surface template warnings
 
 ## Project Structure
@@ -25,7 +25,6 @@
 - `assets/` - Assets processed by Hugo Pipes
 - `themes/` - Hugo themes (vendored, no install needed)
 - `hugo.toml` - Hugo configuration
-- `tests/` - Shell-based test scripts
 
 ## Code Style
 - **Content**: Keep content in markdown format NEVER in html
@@ -48,5 +47,5 @@
 - `just build` produces a minified production build in `public/`.
 - `just clean` removes `public/` and `resources/` directories.
 - `just lint` runs Hugo with `--logLevel warn` to surface template warnings.
-- `just test` runs `tests/court-section.sh` which builds the site and verifies Court section content.
+- `just test` is a no-op — the content-dependent suite was removed (Great Tests Purge, Edict 860); content is the product and is not pinned in CI.
 - No external dependencies need installation — Hugo themes are vendored under `themes/`.

@@ -1,15 +1,15 @@
 hero:
-  headline: "Become The Ruler of Your Projects"
-  subheadline: "Asimi is an open-source, multi-model, single-daemon coding agent. It governs your projects by mimicking the Imperial Court of the three departments and six ministers () so your codebase moves with intent, not chaos."
-  cta_command: "curl -fsSL https://asimi.dev/installer | bash"
+  headline_line1: "Become The Ruler"
+  headline_line2: "of Your Projects"
+  subheadline: "Asimi is an open-source, multi-model, single-daemon coding agent. It governs your projects by an imperial court so your codebase moves with intent, not chaos."
 
 seal_chain:
   - icon: "👩‍⚖️"
     title: "Judge's Seal"
-    description: "the change is well tested and the tests pass"
+    description: "no tests were changed and the change is well tested and the tests pass"
   - icon: "☯️"
     title: "Chancellor's Seal"
-    description: "the code adheres to the Imperial Code"
+    description: "the code is simply using the right names and adheres to the Imperial Code"
   - icon: "🤴"
     title: "Ruler's Seal"
     description: "your final approval; the edict ascends to Heaven"
@@ -18,7 +18,8 @@ become_a_ruler:
   msgs:
     - "With Asimi you don't micromanage keystrokes; you rule"
     - "You state intent, and a small court of ministers defines Edicts (aka issues)"
-    - "Start rituals (aka workflows) that weave the agents and guardrails to ascend edicts, init your project, etc." 
+    - "You review, sharpen and approve edicts to capture your will"
+    - "You start rituals (aka workflows) that weave the agents and guardrails to implement edicts, init projects, etc." 
 
 built_for_developers:
   - "Terminal-Native. Runs where you work, executing commands in your environment."
@@ -31,27 +32,27 @@ realms:
   items:
     - icon: "🧑"
       title: "人 Ren (Intent and Will)"
-      description: "Your desires, requirements, and clarifications. Intent is subjective and often ambiguous, so it is never obeyed blindly: the court raises 正名 and asks the ruler as guessing is treason."
+      description: "Your wants, edicts, documents and tests. Intent is subjective and often ambiguous, so it is never obeyed blindly: the court raises 正名 and asks the ruler as guessing is treason."
       analogy: "The ruler states intent; the court rectifies names"
     - icon: "🌍"
       title: "地 Di (Earth)"
-      description: "Your source tree, shapedby the Forge (工部). Earth is divided into three parts — the Capital (committed, unpushed changes), the Middle Kingdom (staged changes), and the Borderlands (unstaged changes) — harmonized by a wu wei flow of changes from one to the next."
+      description: "Production code, shaped by the Forge (工部) and maintained by git."
       analogy: "The Forge shapes the code"
     - icon: "⚡"
       title: "天 Tian (Heaven)"
       description: "Tests pass or fail; CI renders verdicts; logs record events. Heaven is immutable, binary, and absolute. It does not suggest, signal, or negotiate — it judges."
-      analogy: "CI renders the verdict; the logs record it"
+      analogy: "Asimi uses webhooks to listen and handle tian events"
 
 ministers:
   list:
     - name: "Secretary (中書令)"
-      description: "Receives your intent, rectifies names (正名), and drafts edicts."
-    - name: "Chancellor (門下侍中)"
+      description: "Receives your intent, rectifies names(正名), and drafts edicts."
+    - name: "Chancellor (侍中)"
       description: "Advises, reviews code against the Imperial Code, and holds the Chancellor's Seal."
-    - name: "Ministry of War (兵部)"
-      description: "Plans complex campaigns — battle plans for medium and large edicts."
+    - name: "Strategist (兵部)"
+      description: "Plans complex campaigns — battle plans for medium and large epics, covering multiple edicts."
     - name: "Forge (工部)"
-      description: "Writes code — produces manifests with the implementation details."
+      description: "Writes clean concise code — produces manifests with the implementation details."
     - name: "Judge (刑部)"
       description: "Runs tests and renders the binary verdict: pass or fail."
   closing: "No minister is fully trusted — if the Forge fakes a test, the Judge catches it. No change reaches Heaven without passing every seal, including yours."
