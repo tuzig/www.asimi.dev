@@ -39,9 +39,9 @@ court:
 become_a_ruler:
   msgs:
     - "With Asimi you don't micromanage keystrokes; you rule"
-    - "You state intent, and a small court of ministers defines Edicts (aka issues)"
-    - "You review, sharpen and approve edicts to capture your will"
-    - "You start rituals (aka workflows) that weave the agents and guardrails to implement edicts, init projects, etc."
+    - "Your Secretary captures your intent and formulates edicts"
+    - "You review, sharpen and approve edicts"
+    - "Rituals (aka workflows) weave the ministers and guardrails to implement edicts, init projects and more"
   closing: ""
 
 become_a_contributor:
