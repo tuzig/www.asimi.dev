@@ -5,7 +5,7 @@ enableRobotsTXT = true
 
 [params]
   tagline = 'An imperial court for your project'
-  description = 'Asimi is a coding agent that anointes you a ruler over a sandboxed imperial court — where your intent becomes law, ministers execute your will, and you reign over a purposeful court'
+  description = 'Asimi is a harness that anointes you a ruler over a sandboxed imperial court — where your intent becomes law, ministers execute your will, and you reign over a purposeful court'
   github = 'https://github.com/afittestide/asimi-cli'
   og_image = 'og-image.png'
   
