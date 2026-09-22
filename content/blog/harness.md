@@ -10,7 +10,7 @@ Asimi version 0.4.0 is out and I've got time to post.
 This one comes following a discussion about coding agents in one of the WhatsApp groups.
 People didn't believe me they're that simple.
 
-A "harness" is the collection of tools the LLM can all. This toolchsest and a simple loop turns the LLM into an agent that let it actually *do* things rather than just chat.
+Given a toolchest — the tools the LLM can call — plus a simple loop, the LLM becomes an agent that can actually *do* things rather than just chat.
 
 It turns out coders need very few tools.
 [Codex](https://github.com/openai/codex), the leanest of the agents, doesn't even have a tool for reading a file.
@@ -20,7 +20,7 @@ To print lines they used `1,23p`. Today, ed has been reincarnated as sed, and Co
 to read files just like Ken Thompson did back in the '70s. This approach saves tokens and keeps the tool interface minimal.
 
 I've used the following prompt to ask [Codex](https://github.com/openai/codex), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Cursor](https://www.cursor.com/), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [OpenCode](https://github.com/opencode-ai/opencode) and Asimi.
-If you have MCPs configured they should appear in the output as weel.
+If you have MCPs configured they should appear in the output as well.
 
 > Please help me better understand the harness of the coding agents we're using. What tools are available to you in this session? 
 

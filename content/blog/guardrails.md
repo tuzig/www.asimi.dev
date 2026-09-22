@@ -56,7 +56,7 @@ So it's trapezoid and it's bigger as it has guardrails.
 ## The Guardrails Trapezoid
 
 Every coding agent comes with guardrails.
-They are part of the harness that protect the lingo of agent, guardrails are the part of the  is a hard coded test that verifies agents output.
+They are part of the harness, and guardrails are the hard-coded tests that verify an agent's output.
 It can be as simple as as linter or as complex as an end-to-end test.
  good guardrails
 

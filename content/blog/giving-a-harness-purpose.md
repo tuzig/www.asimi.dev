@@ -1,6 +1,6 @@
 ---
 title: "Giving a harness purpose"
-date: 2026-01-14T09:00:00+02:00
+date: 2026-09-14T09:04:00+02:00
 description: "A coding agent walked into a Confucian school in Korea. What came back was an imperial court."
 tags: ["asimi", "agents", "architecture", "philosophy"]
 author: 'Benny Daon'
@@ -35,7 +35,7 @@ At the time I was building the sandbox so it didn't click.
 Only when the sandbox was done (it'll never be done) and I was looking for a replacement to orchestrating I recalled Kevin and his Confucians.
 I remembered and wanted to learn more. Harmonize what?
 I chatted with Kimi trying to understand what is being harmonized. 
-Here's the answer from the latest Kimi (2.7):
+Here's the answer from the Kimi (2.7):
 
 
 In imperial Chinese political cosmology, the court understood the
@@ -92,8 +92,7 @@ It sounds like dealing with the same problem our LLM agents are having.
 Their sycophancy makes them ambitious. Not for power or money, but for the ruler's approval.
 
 I've simplified the classic structure and twisted it a bit.
-For now, there are 4 ministers in the system, each with his own storage and tools and
-all are driven by my edicts.
+For now, there are 4.5 ministers in the system, each with his own storage and tools. As for the rest of the ministers, they're starting to take shape, but that's for another post.
 
 ### Rituals and Li 禮
 
@@ -119,7 +118,7 @@ implementing an edict or handling an error.
 
 Asimi lets me work old-style by chatting directly to the Forge (Minister of Works).
 This is very uncommon as 
-usually I chat with the "Sage" and it drafts the edict.
+usually I chat with the Secretary and it drafts the edict.
 Based on my prompt it either tracks down a bug or looks for ways to implement a new feature.
 It's not unlike planning mode in other coding-agent.
 The big difference is what happens with the plan.
@@ -129,7 +128,6 @@ It can be read, edited, implemented or cancelled using the ":edicts" command.
 After I approve the edict I'm asked if I want to run a swift-strike ritual on it. If I approve the ritual runs:
 
 ```yaml
-
 - name: swift-strike
   description: A tight loop for implementing edicts
   inputs:
@@ -143,43 +141,42 @@ After I approve the edict I'm asked if I want to run a swift-strike ritual on it
     - name: forging
       minister: forge
       act: |
+        {{- if .error }}
+        Your previous work failed. Here is the error output:
+        {{ .error }}
+        Fix the issues and re-implement the edict correctly.
+        {{- end }}
         Implement the changes for the edict:
-
         {{ .edict }}
-
-        Focus on minimal, targeted changes to fulfill the intent.
+      on_failure: retry
     - name: judging
       minister: judge
       given:
         - "!just test"
-        - the manifests
       act: |
         If any tests were changed, you need to verify that were not weakened
         and that non trivial changes are justified by the edict.
-        {{ .manifests }}
-        ...
+        If tests fail, provide clear feedback for the Forge on what needs to be fixed.
+        If changes are not covered by test, add the missing tests and write them so they ensure the changed code will always work.
         When judgement is done, call record_verdict
       then:
         - the verdicts are passed
         - record the judge's seal
       on_failure: goto
       on_failure_target: forging
-    - name: censoring
-      minister: sage
-      given:
-        - the manifests
-        - the verdicts
+    - name: reviewing
+      minister: chancellor
       act: |
-        Review the code changes for the edict. 
+        Review the code changes for the edict.
+        Check for style violations, security concerns, and architectural issues.
+        Record your insights using record_precedent.
+        Produce a comprehensive code review report 
+        Highlight any blocking issues and suggest improvements.
         ## Edict
         {{ .edict }}
-        ## Manifests
-        {{ .manifests }}
-        ## Verdicts
-        {{ .verdicts }}
       then:
         - the precedent is approved
-        - record the sage's seal
+        - record the chancellor's seal
       on_failure: goto
       on_failure_target: forging
   then:
@@ -192,10 +189,10 @@ In a nut shell:
 - Guardrail: Run the tests
 - Judge: Is new code covered by tests? Were any tests changed?
 - Guardrail: Judge approved
-- Sage: Review the new code is it up to imperial standards?
+- Chancellor: Review the new code is it up to imperial standards?
 
-When the judge or sage reject a change it goes back to the forge for improvements,
-and the ritual repeats until both the judge and sage seal the edict.
+When the judge or chancellor reject a change it goes back to the forge for improvements,
+and the ritual repeats until both the judge and chancellor seal the edict.
 No single minister can ship code alone — not even the Forge.
 
 And that, I realized, is the point. A harness without purpose is just a loop
