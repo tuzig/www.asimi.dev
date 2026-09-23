@@ -110,7 +110,7 @@ features:
   title: "Batteries Included"
   items:
     - icon: "🛠️"
-      title: "DevOps Init"
+      title: "AgentOps Init"
       description: "An init command that creates:"
       bullets:
         - "A Justfile to hold the project's scripts"
@@ -123,10 +123,10 @@ features:
       description: "Agent's shell runs in its own container. Your host system stays protected while the models works freely."
     - icon: "🦙"
       title: "Multiple LLM Providers"
-      description: "Support for Ollama, Claude Pro/Max, and OpenAI API v1 compatible services. Use your preferred model."
+      description: "Support for any OpenAI API v1 compatible services. Use your preferred model."
     - icon: "⚡"
-      title: "30x+ Faster Shell"
-      description: "Asimi's containerized consistent shell uses subshells to isolate commands. This minimizes overhead and save on slow exec times."
+      title: "YAML based workflows"
+      description: "Asimi's rituals are extendable and customizable. Create your own workflows or customize how edicts ascend."
     - icon: "🧹"
       title: "Less Clutter"
       description_prefix: "All special files live under the"
