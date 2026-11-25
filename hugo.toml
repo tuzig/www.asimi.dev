@@ -2,6 +2,7 @@ baseURL = 'https://asimi.dev/'
 languageCode = 'en-us'
 title = 'Asimi CLI'
 enableRobotsTXT = true
+disableKinds = ['taxonomy', 'term']
 
 [params]
   tagline = 'An imperial court for your project'
@@ -16,10 +17,6 @@ enableRobotsTXT = true
   [markup.highlight]
     style = 'dracula'
     lineNos = false
-
-[taxonomies]
-  tag = 'tags'
-  category = 'categories'
 
 [permalinks]
   blog = '/blog/:slug/'
