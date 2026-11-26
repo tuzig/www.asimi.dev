@@ -1,6 +1,6 @@
 ---
 title: "Help Us Drain the Swamps of Software Rot"
-date: 2026-11-25T09:20:00+02:00
+date: 2026-11-26T09:22:00+02:00
 description: "Asimi is looking for a freelance engineer to drain our design partners' software swamps and build software factories."
 author: 'Benny Daon'
 tags: ["freelance"]
@@ -15,7 +15,7 @@ tests in archaic frameworks, tangling dependencies, and turning a simple test
 run into a ten-minute wait.
 
 Asimi exists to reverse that. We're turning messy, slow codebases into
-reliable, fast **software factories** — integrating with existing dev services
+reliable, fast software factories — integrating with existing dev services
 and running workflows that weave prompts and guardrails.
 
 Demand from our design partners is picking up, and there is more swamp than one
