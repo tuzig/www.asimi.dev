@@ -1,7 +1,6 @@
 # This template is customized by project-init ritual based on the project's language
 # and tool set. 
-
-PROJECT_NAME := `git config --get remote.origin.url | sed -E 's/.*[:\/]([^\/]+)\/([^\/]+)\.git$/\1\/\2/'`
+project_name := `user=$(id -un | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//'); url=$(git config --get remote.origin.url 2>/dev/null | sed -E 's/\.git$//; s/\/+$//'); [ -n "$url" ] || url=$PWD; repo=$(basename "$url" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//'); printf '%s/%s' "$user" "$repo"`
 
 list:
     @just --list
@@ -10,12 +9,12 @@ list:
 build-sandbox:
     podman machine init --disk-size 30 >/dev/null 2>&1 || true
     podman machine start >/dev/null 2>&1 || true
-    podman rmi localhost/asimi/sandbox/{{PROJECT_NAME}}:latest 2>/dev/null || true
-    podman build -t localhost/asimi/sandbox/{{PROJECT_NAME}}:latest -f .agents/sandbox/Dockerfile .
+    podman rmi localhost/asimi/sandbox/{{project_name}}:latest 2>/dev/null || true
+    podman build -t localhost/asimi/sandbox/{{project_name}}:latest -f .agents/sandbox/Dockerfile .
 
 # Clean up the sandbox container
 clean-sandbox:
-    podman rmi localhost/asimi/sandbox/{{PROJECT_NAME}}:latest
+    podman rmi localhost/asimi/sandbox/{{project_name}}:latest
 
 # Install project dependencies (language-specific) — customize for your project
 install:

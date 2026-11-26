@@ -41,6 +41,7 @@ drain the swamps of software rot and build software factories.**
 - **Flexible freelance setup.** Looking for roughly half your time. We care
   about drained swamps and shipped work, not warming a chair on a fixed
   schedule.
+- **Go is our native tongue** And our partners use ruby, python, typescript, etc.
 
 ## Interested?
 
